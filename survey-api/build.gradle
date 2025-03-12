@@ -1,0 +1,14 @@
+project(':survey-api') {
+    dependencies {
+        implementation project(':survey-common')
+        implementation project(':survey-domain')
+    }
+
+    tasks.bootJar {
+        enabled = false
+    }
+
+    tasks.jar {
+        enabled = true
+    }
+}
