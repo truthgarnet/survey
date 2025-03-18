@@ -1,14 +1,8 @@
-project(':survey-api') {
-    dependencies {
-        implementation project(':survey-common')
-        implementation project(':survey-domain')
-    }
+plugins {
+    id 'survey.java-conventions'
+}
 
-    tasks.bootJar {
-        enabled = false
-    }
-
-    tasks.jar {
-        enabled = true
-    }
+dependencies {
+    implementation project(':survey-domain')
+    implementation project(':survey-common')
 }

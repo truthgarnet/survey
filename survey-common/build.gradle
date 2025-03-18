@@ -1,11 +1,3 @@
-project(':survey-common') {
-    dependencies {}
-
-    tasks.bootJar {
-        enabled = false
-    }
-
-    tasks.jar {
-        enabled = true
-    }
+plugins {
+    id 'survey.java-conventions'
 }
