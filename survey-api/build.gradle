@@ -3,6 +3,13 @@ plugins {
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter:3.4.3'
+    implementation 'org.springframework.boot:spring-boot-starter-tomcat:3.4.3'
+    implementation 'org.springframework.boot:spring-boot-devtools:3.4.3'
+    implementation 'org.springframework.boot:spring-boot-starter-web:3.4.3'
     implementation project(':survey-domain')
     implementation project(':survey-common')
+
+    compileOnly 'org.projectlombok:lombok:1.18.36'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:3.4.3'
 }
