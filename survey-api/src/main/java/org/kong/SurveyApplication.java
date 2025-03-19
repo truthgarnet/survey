@@ -1,4 +1,4 @@
-package com.f_lab.survey;
+package org.kong;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,8 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class SurveyApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SurveyApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(SurveyApplication.class, args);
+    }
 }
