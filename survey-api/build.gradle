@@ -12,4 +12,5 @@ dependencies {
 
     compileOnly 'org.projectlombok:lombok:1.18.36'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:3.4.3'
+    testImplementation 'com.h2database:h2'
 }
