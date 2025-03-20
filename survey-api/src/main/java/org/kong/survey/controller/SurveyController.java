@@ -11,10 +11,10 @@ import java.util.HashMap;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "menu/survey")
+@RequestMapping(value = "/api/surveys")
 public class SurveyController {
 
-    @GetMapping("/list")
+    @GetMapping("")
     public ResponseEntity<ResponseCommon<Object>> getSurveyList(@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
         List<Survey.Response> surveyList = new ArrayList<>();
 
@@ -42,7 +42,7 @@ public class SurveyController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @PostMapping("/add")
+    @PostMapping("")
     public ResponseEntity<ResponseCommon<Object>> addSurvey(@RequestBody Survey.Request request) {
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", 1);
