@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SurveyResponse {
+public class SurveyAnswer {
 
     private int responseId;
     private Survey survey;

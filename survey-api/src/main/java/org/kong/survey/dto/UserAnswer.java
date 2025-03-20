@@ -12,7 +12,7 @@ import java.util.Date;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserResponse {
+public class UserAnswer {
 
     private int userResponseId;
     private Survey survey;
@@ -29,6 +29,7 @@ public class UserResponse {
 
     @Getter
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class Response {
         private int questionId;
         private int answerId;
