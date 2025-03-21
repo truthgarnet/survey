@@ -3,6 +3,7 @@ package org.kong.survey.controller;
 import org.kong.response.ResponseCommon;
 import org.kong.survey.dto.Survey;
 import org.kong.survey.dto.UserAnswer;
+import org.kong.survey.dto.UserAnswerFindAll;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ import java.util.List;
 public class UserSurveyController {
     @GetMapping("")
     public ResponseEntity<ResponseCommon<Object>> getUserSurveyList(@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
-        List<Survey.Response> surveyList = new ArrayList<>();
+        List<UserAnswerFindAll.Response> surveyList = new ArrayList<>();
 
         ResponseCommon<Object> response = ResponseCommon
                 .builder()
@@ -41,9 +42,8 @@ public class UserSurveyController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @PostMapping("/{surveyId}/user/{userId}")
+    @PostMapping("/{surveyId}/user")
     public ResponseEntity<ResponseCommon<Object>> writeSurvey(@PathVariable(value = "surveyId") int surveyId,
-                                                                @PathVariable(value = "userId") int userId,
                                                               @RequestBody UserAnswer.Request request) {
         UserAnswer.Response survey = new UserAnswer.Response();
 
