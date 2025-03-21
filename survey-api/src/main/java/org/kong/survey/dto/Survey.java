@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -25,18 +26,18 @@ public class Survey {
         private int surveyId;
         private String surveyTitle;
         private boolean usedYn;
+        private List<Question.Request> questions;
     }
 
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Response {
-        private Integer surveyId;
+        private int surveyId;
         private String surveyTitle;
         private String surveyVersion;
-        private LocalDateTime createdDate;
-        private LocalDateTime updatedDate;
         private boolean usedYn;
+        private List<Question.Response> questions;
     }
 
 }

@@ -22,16 +22,17 @@ public class Question {
     @Setter
     public static class Request {
         private QuestionType questionType;
-        private List<String> question;
+        private String question;
+        private int order;
     }
 
     @Getter
     @AllArgsConstructor
     public static class Response {
-        private Survey survey;
         private QuestionType questionType;
         private String question;
         private int order;
+        private List<SurveyAnswer.Response> answers;
     }
 
 }
