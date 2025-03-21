@@ -24,6 +24,7 @@ public class UserAnswer {
     @Setter
     public static class Request {
         private int questionId;
+        private int answerId;
         private String userAnswer;
     }
 
