@@ -2,6 +2,7 @@ package org.kong.survey.controller;
 
 import org.kong.response.ResponseCommon;
 import org.kong.survey.dto.Survey;
+import org.kong.survey.dto.SurveyFindAll;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,13 +45,12 @@ public class SurveyController {
 
     @PostMapping("")
     public ResponseEntity<ResponseCommon<Object>> addSurvey(@RequestBody Survey.Request request) {
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("result", 1);
+        Survey.Response survey = new Survey.Response();
 
         ResponseCommon<Object> response = ResponseCommon.builder()
                 .code(1)
                 .msg("설문지 추가 성공")
-                .data(result)
+                .data(survey)
                 .build();
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
