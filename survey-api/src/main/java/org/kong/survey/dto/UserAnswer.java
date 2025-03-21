@@ -23,8 +23,8 @@ public class UserAnswer {
     @Getter
     @Setter
     public static class Request {
-        private int userId;
-        private int surveyId;
+        private int questionId;
+        private String userAnswer;
     }
 
     @Getter

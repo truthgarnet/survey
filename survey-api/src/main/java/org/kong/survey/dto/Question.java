@@ -24,6 +24,7 @@ public class Question {
         private QuestionType questionType;
         private String question;
         private int order;
+        List<SurveyAnswer.Request> answers;
     }
 
     @Getter

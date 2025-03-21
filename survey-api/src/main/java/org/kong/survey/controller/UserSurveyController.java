@@ -44,7 +44,7 @@ public class UserSurveyController {
 
     @PostMapping("/{surveyId}/user")
     public ResponseEntity<ResponseCommon<Object>> writeSurvey(@PathVariable(value = "surveyId") int surveyId,
-                                                              @RequestBody UserAnswer.Request request) {
+                                                              @RequestBody List<UserAnswer.Request> request) {
         UserAnswer.Response survey = new UserAnswer.Response();
 
         ResponseCommon<Object> response = ResponseCommon

@@ -24,6 +24,7 @@ public class SurveyAnswer {
     @AllArgsConstructor
     public static class Response {
         private int answerId;
+        private String answer;
     }
 
 }
