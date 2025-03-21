@@ -10,21 +10,20 @@ import lombok.Setter;
 @AllArgsConstructor
 public class SurveyAnswer {
 
-    private int responseId;
+    private int answerId;
     private Survey survey;
-    private String response;
+    private String answer;
 
     @Getter
     @Setter
     public static class Request {
-        private String response;
+        private String answer;
     }
 
     @Getter
     @AllArgsConstructor
     public static class Response {
-        private Survey survey;
-        private String response;
+        private int answerId;
     }
 
 }

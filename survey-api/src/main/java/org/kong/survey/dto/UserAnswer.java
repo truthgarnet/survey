@@ -14,11 +14,11 @@ import java.util.Date;
 @AllArgsConstructor
 public class UserAnswer {
 
-    private int userResponseId;
+    private int userAnswerId;
     private Survey survey;
     private User user;
-    private Response response;
-    private LocalDateTime responseDate;
+    private SurveyAnswer answer;
+    private LocalDateTime answerDate;
 
     @Getter
     @Setter
@@ -33,7 +33,7 @@ public class UserAnswer {
     public static class Response {
         private int questionId;
         private int answerId;
-        private String response;
-        private Date responseDate;
+        private String answer;
+        private Date answerDate;
     }
 }
