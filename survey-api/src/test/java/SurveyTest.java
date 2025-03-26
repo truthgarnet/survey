@@ -96,14 +96,23 @@ public class SurveyTest {
         request.setQuestions(null);
 
         // SurveyService가 add 호출 시 Response 객체를 반환하도록 Mock 설정
-        Survey.Response surveyResponse = new Survey.Response(3, "새로운설문", "3V", LocalDateTime.now(), LocalDateTime.now(), true, List.of());
+        Survey.Response surveyResponse = null;
+
+        surveyResponse = Survey.Response.builder()
+                        .surveyId(3)
+                        .surveyTitle(request.getSurveyTitle())
+                        .surveyVersion("3V")
+                        .createdDate(LocalDateTime.now())
+                        .updatedDate(LocalDateTime.now())
+                        .questions(null)
+                        .build();
+
         given(surveyService.add(request)).willReturn(surveyResponse);
 
 
         // when & then
         mockMvc.perform(post("/api/surveys")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body("{\"surveyTitle\":\"건강설문\", \"surveyVersion\":\"1V\", \"startDate\":\"" + LocalDateTime.now() + "\", \"endDate\":\"" + LocalDateTime.now() + "\", \"isUsedYn\":true}"))
+                .content("{\"surveyTitle\":\"새로운설문\", \"surveyVersion\":\"3V\", \"startDate\":\"" + LocalDateTime.now() + "\", \"endDate\":\"" + LocalDateTime.now() + "\", \"isUsedYn\":true}"))
                 .andExpect(status().isOk())  // HTTP 상태 코드 확인
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))  // 응답 타입 확인
                 .andExpect(jsonPath("$.code").value(1))  // 응답 코드 확인
@@ -117,20 +126,31 @@ public class SurveyTest {
     @DisplayName("설문지 수정 테스트")
     public void updateAll() throws Exception {
         // given
+        Integer surveyId = 3;
+
         Survey.Request request = new Survey.Request();
         request.setSurveyTitle("수정된설문");
         request.setUsedYn(true);
         request.setQuestions(null);
 
         // SurveyService가 add 호출 시 Response 객체를 반환하도록 Mock 설정
-        Survey.Response surveyResponse = new Survey.Response(3, "수정된설문", "3V", LocalDateTime.now(), LocalDateTime.now(), true, List.of());
+        Survey.Response surveyResponse = null;
+
+        surveyResponse = Survey.Response.builder()
+                        .surveyId(3)
+                        .surveyTitle(request.getSurveyTitle())
+                        .surveyVersion("3V")
+                        .createdDate(LocalDateTime.now())
+                        .updatedDate(LocalDateTime.now())
+                        .questions(null)
+                        .build();
+
         given(surveyService.add(request)).willReturn(surveyResponse);
 
 
         // when & then
-        mockMvc.perform(post("/api/surveys")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body("{\"surveyTitle\":\"수정된설문\", \"surveyVersion\":\"1V\", \"startDate\":\"" + LocalDateTime.now() + "\", \"endDate\":\"" + LocalDateTime.now() + "\", \"isUsedYn\":true}"))
+        mockMvc.perform(post("/api/surveys/{surveyId}", surveyId)
+                .content("{\"surveyTitle\":\"수정된설문\", \"surveyVersion\":\"3V\", \"startDate\":\"" + LocalDateTime.now() + "\", \"endDate\":\"" + LocalDateTime.now() + "\", \"isUsedYn\":true}"))
                 .andExpect(status().isOk())  // HTTP 상태 코드 확인
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))  // 응답 타입 확인
                 .andExpect(jsonPath("$.code").value(1))  // 응답 코드 확인
