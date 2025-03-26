@@ -1,13 +1,16 @@
 package org.kong.survey.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "TB_QUESTION")
 @Getter
 @DynamicUpdate
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class QuestionEntity {
 
     @Id
@@ -23,4 +26,12 @@ public class QuestionEntity {
     @ManyToOne
     @JoinColumn(name = "survey_id")
     private SurveyEntity survey;
+
+    @Builder
+    public QuestionEntity(Integer questionId, String question, int questionOrder, SurveyEntity survey) {
+        this.questionId = questionId;
+        this.question = question;
+        this.questionOrder = questionOrder;
+        this.survey = survey;
+    }
 }
