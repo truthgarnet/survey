@@ -1,5 +1,6 @@
 package org.kong.survey.service;
 
+import lombok.RequiredArgsConstructor;
 import org.kong.survey.dto.Survey;
 import org.kong.survey.dto.SurveyFindAll;
 import org.kong.survey.entity.SurveyEntity;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class SurveyService {
 
     @Autowired
@@ -47,6 +49,7 @@ public class SurveyService {
     public Survey.Response updateAll(Integer surveyId, Survey.Request request) {
         surveyRepository.findBySurveyId(surveyId).orElseThrow(() -> new RuntimeException());
 
+        request.setSurveyId(surveyId);
         SurveyEntity changeSurvey = surveyMapper.toSurveyEntity(request);
         surveyRepository.save(changeSurvey);
 
