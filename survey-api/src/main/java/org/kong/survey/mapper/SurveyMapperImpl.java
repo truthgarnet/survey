@@ -23,6 +23,8 @@ public class SurveyMapperImpl implements SurveyMapper {
                 .surveyTitle(surveyEntity.getSurveyTitle())
                 .surveyVersion(surveyEntity.getSurveyVersion())
                 .usedYn(Boolean.valueOf(surveyEntity.getUsedYn()))
+                .createdDate(surveyEntity.getCreatedDate())
+                .updatedDate(surveyEntity.getUpdatedDate())
                 .questions(null)
                 .build();
     }
@@ -38,6 +40,8 @@ public class SurveyMapperImpl implements SurveyMapper {
                         .surveyId(survey.getSurveyId())
                         .surveyTitle(survey.getSurveyTitle())
                         .surveyVersion(survey.getSurveyVersion())
+                        .createdDate(survey.getCreatedDate())
+                        .updatedDate(survey.getUpdatedDate())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -51,9 +55,8 @@ public class SurveyMapperImpl implements SurveyMapper {
         return SurveyEntity.builder()
                 .surveyId(survey.getSurveyId())
                 .surveyTitle(survey.getSurveyTitle())
+                .surveyVersion(survey.getSurveyVersion())
                 .usedYn(survey.isUsedYn()) // boolean 값 그대로 사용
-                .createdDate(LocalDateTime.now()) // 기본값 설정
-                .updatedDate(LocalDateTime.now()) // 기본값 설정
                 .build();
     }
 }

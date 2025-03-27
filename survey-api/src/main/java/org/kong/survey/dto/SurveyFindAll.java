@@ -14,6 +14,7 @@ public class SurveyFindAll {
         private String surveyTitle;
         private String surveyVersion;
         private LocalDateTime createdDate;
+        private LocalDateTime updatedDate;
     }
 
 }

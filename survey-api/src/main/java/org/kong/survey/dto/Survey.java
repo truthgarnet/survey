@@ -22,6 +22,7 @@ public class Survey {
     public static class Request {
         private Integer surveyId;
         private String surveyTitle;
+        private String surveyVersion;
         private boolean usedYn;
         private List<Question.Request> questions;
     }
