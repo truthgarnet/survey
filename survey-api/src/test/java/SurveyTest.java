@@ -41,8 +41,17 @@ public class SurveyTest {
     @Autowired
     private QuestionRepository questionRepository;
 
+    @Autowired
+    private EntityManager entityManager;
+
     @BeforeEach
     public void setUp() {
+        // 외래 키 제약 조건 비활성화
+        entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY FALSE").executeUpdate();
+        entityManager.createNativeQuery("TRUNCATE TABLE TB_SURVEY RESTART IDENTITY").executeUpdate();
+        // 외래 키 제약 조건 다시 활성화
+        entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY TRUE").executeUpdate();
+
         SurveyEntity survey1 = SurveyEntity.builder()
                 .surveyTitle("건강설문")
                 .surveyVersion("1V")
