@@ -77,7 +77,7 @@ public class SurveyController {
 
     @PatchMapping("/{surveyId}")
     public ResponseEntity<ResponseCommon<Object>> updatePart(@PathVariable(value = "surveyId") int surveyId, @RequestBody Survey.Request request) {
-        Survey.Response survey = surveyService.updateAll(surveyId, request);
+        Survey.Response survey = surveyService.updatePart(surveyId, request);
 
         ResponseCommon<Object> response = ResponseCommon.builder()
                 .code(1)
