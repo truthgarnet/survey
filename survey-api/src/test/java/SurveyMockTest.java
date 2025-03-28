@@ -27,7 +27,7 @@ import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 @Transactional
 @AutoConfigureMockMvc
 @Import(JpaConfig.class)
-public class SurveyTest {
+public class SurveyMockTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -140,8 +140,8 @@ public class SurveyTest {
 
         // when & then
         mockMvc.perform(post("/api/surveys")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())  // HTTP 상태 코드 확인
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))  // 응답 타입 확인
                 .andExpect(jsonPath("$.code").value(1))  // 응답 코드 확인
@@ -167,8 +167,8 @@ public class SurveyTest {
 
         // when & then
         mockMvc.perform(put("/api/surveys/{surveyId}", surveyId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())  // HTTP 상태 코드 확인
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))  // 응답 타입 확인
                 .andExpect(jsonPath("$.code").value(1))  // 응답 코드 확인
