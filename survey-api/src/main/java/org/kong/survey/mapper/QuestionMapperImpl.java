@@ -4,11 +4,13 @@ import org.kong.survey.dto.Question;
 import org.kong.survey.dto.SurveyAnswer;
 import org.kong.survey.entity.QuestionEntity;
 import org.kong.survey.entity.SurveyEntity;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Component
 public class QuestionMapperImpl implements QuestionMapper {
 
     @Override
