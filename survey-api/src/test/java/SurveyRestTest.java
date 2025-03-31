@@ -1,6 +1,7 @@
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.runner.RunWith;
 import org.kong.SurveyApplication;
 import org.kong.response.ResponseCommon;
 import org.kong.survey.dto.Question;
@@ -11,14 +12,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.kong.survey.repository.SurveyRepository;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@RunWith(SpringRunner.class)
 @SpringBootTest(classes = SurveyApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class SurveyRestTest {
 
@@ -31,35 +37,9 @@ public class SurveyRestTest {
     @LocalServerPort
     private int port;
 
-
     @BeforeEach
     public void setUp() {
-        String url = "http://localhost:" + this.port + "/api/surveys";
-
-        List<Question.Request> questions = List.of();
-        Question.Request question1 = new Question.Request();
-        question1.setQuestionType(QuestionType.SUB);
-        question1.setQuestion("당신의 키는?");
-        question1.setOrder(1);
-
-        Question.Request question2 = new Question.Request();
-        question1.setQuestionType(QuestionType.SUB);
-        question1.setQuestion("당신의 몸무게는?");
-        question1.setOrder(2);
-
-        questions.add(question1);
-        questions.add(question2);
-
-        Survey.Request request = new Survey.Request();
-        request.setSurveyId(1);
-        request.setSurveyTitle("건강검진");
-        request.setSurveyVersion("1V");
-        request.setUsedYn(true);
-        request.setQuestions(questions);
-
-        ResponseEntity<ResponseCommon> response = testRestTemplate.postForEntity(url, request, ResponseCommon.class);
-
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        surveyRepository.deleteAll();
     }
 
     @Test
@@ -67,16 +47,25 @@ public class SurveyRestTest {
     public void addSurvey() throws Exception {
         // given
         Survey.Request request = new Survey.Request();
-        request.setSurveyTitle("새로운설문");
-        request.setSurveyVersion("3V");
+        request.setSurveyTitle("건강검진");
+        request.setSurveyVersion("1V");
         request.setUsedYn(true);
         request.setQuestions(null);
 
         String url = "http://localhost:" + this.port + "/api/surveys";
-        ResponseEntity<ResponseCommon> response = testRestTemplate.postForEntity(url, request, ResponseCommon.class);
+        ResponseEntity<ResponseCommon<Survey.Response>> response = testRestTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                new HttpEntity<>(request), new ParameterizedTypeReference<ResponseCommon<Survey.Response>>(){}
+        );
+
+        Survey.Response survey = response.getBody().getData();
 
         // then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(survey.getSurveyId()).isEqualTo(1);
+        assertThat(survey.getSurveyTitle()).isEqualTo("건강검진");
+        assertThat(survey.getSurveyVersion()).isEqualTo("1V");
     }
 
     @Test
