@@ -1,17 +1,11 @@
 import jakarta.transaction.Transactional;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.*;
 import org.junit.runner.RunWith;
 import org.kong.SurveyApplication;
 import org.kong.response.ResponseCommon;
-import org.kong.survey.dto.Question;
-import org.kong.survey.dto.QuestionType;
 import org.kong.survey.dto.Survey;
 import org.kong.survey.dto.SurveyFindAll;
-import org.kong.survey.entity.SurveyEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -22,8 +16,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.kong.survey.repository.SurveyRepository;
-import org.springframework.test.annotation.Commit;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -31,9 +23,9 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Transactional
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SurveyApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class SurveyRestTest {
 
     @Autowired
@@ -45,7 +37,7 @@ public class SurveyRestTest {
     @LocalServerPort
     private int port;
 
-    @BeforeAll
+    @BeforeEach
     public void setUp() {
         surveyRepository.deleteAll();
     }
@@ -127,11 +119,25 @@ public class SurveyRestTest {
 
     @Test
     @DisplayName("설문지 단건 조회 테스트")
+    @Order(3)
     public void getSurvey() throws Exception {
         // given
-        int surveyId = 1;
+        Integer surveyId = 1;
+        String url = "http://localhost:" + this.port + "/api/surveys/" + surveyId;
 
+        ResponseEntity<ResponseCommon<Survey.Response>> response = testRestTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<ResponseCommon<Survey.Response>>(){}
+        );
 
+        Survey.Response survey = response.getBody().getData();
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(survey.getSurveyId()).isEqualTo(1);
+        assertThat(survey.getSurveyTitle()).isEqualTo("새로운설문지");
+        assertThat(survey.getSurveyVersion()).isEqualTo("1V");
     }
 
 
