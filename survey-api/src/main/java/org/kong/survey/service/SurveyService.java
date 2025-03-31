@@ -47,11 +47,11 @@ public class SurveyService {
     public Survey.Response add(Survey.Request request) {
         SurveyEntity survey = surveyMapper.toSurveyEntity(request);
 
-        survey = surveyRepository.save(survey);
-
         if (survey == null) {
             throw new RuntimeException();
         }
+
+        survey = surveyRepository.save(survey);
 
         return surveyMapper.toSurveyResponse(survey);
     }
