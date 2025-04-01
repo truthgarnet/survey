@@ -1,4 +1,3 @@
-import jakarta.transaction.Transactional;
 import org.junit.Test;
 import org.junit.jupiter.api.*;
 import org.junit.runner.RunWith;
@@ -18,7 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.kong.survey.repository.SurveyRepository;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -44,7 +43,6 @@ public class SurveyRestTest {
 
     @Test
     @DisplayName("설문지 추가 테스트")
-    @Order(1)
     public void addSurvey() throws Exception {
         // given
         Survey.Request request = new Survey.Request();
@@ -72,7 +70,6 @@ public class SurveyRestTest {
 
     @Test
     @DisplayName("설문지 리스트 조회 테스트")
-    @Order(2)
     public void getSurveyList() throws Exception {
         // 1. 데이터 저장
         Survey.Request request1 = new Survey.Request();
@@ -119,11 +116,25 @@ public class SurveyRestTest {
 
     @Test
     @DisplayName("설문지 단건 조회 테스트")
-    @Order(3)
     public void getSurvey() throws Exception {
         // given
+        Survey.Request request = new Survey.Request();
+        request.setSurveyTitle("새로운설문지");
+        request.setSurveyVersion("1V");
+        request.setUsedYn(true);
+        request.setQuestions(null);
+
+        String url = "http://localhost:" + this.port + "/api/surveys";
+        testRestTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                new HttpEntity<>(request),
+                new ParameterizedTypeReference<ResponseCommon<Survey.Response>>(){}
+        );
+
+
         Integer surveyId = 1;
-        String url = "http://localhost:" + this.port + "/api/surveys/" + surveyId;
+        url = "http://localhost:" + this.port + "/api/surveys/" + surveyId;
 
         ResponseEntity<ResponseCommon<Survey.Response>> response = testRestTemplate.exchange(
                 url,
@@ -146,13 +157,42 @@ public class SurveyRestTest {
     @DisplayName("설문지 수정 테스트")
     public void updateAll() throws Exception {
         // given
+        Survey.Request request = new Survey.Request();
+        request.setSurveyTitle("새로운설문지");
+        request.setSurveyVersion("1V");
+        request.setUsedYn(true);
+        request.setQuestions(null);
+
+        String url = "http://localhost:" + this.port + "/api/surveys";
+        testRestTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                new HttpEntity<>(request),
+                new ParameterizedTypeReference<ResponseCommon<Survey.Response>>(){}
+        );
+
         Integer surveyId = 1;
 
-        Survey.Request request = new Survey.Request();
+        request = new Survey.Request();
         request.setSurveyTitle("수정된설문");
         request.setSurveyVersion("2V");
         request.setUsedYn(false);
         request.setQuestions(null);
+
+        url = "http://localhost:" + this.port + "/api/surveys/" + surveyId;
+        ResponseEntity<ResponseCommon<Survey.Response>> response = testRestTemplate.exchange(
+                url,
+                HttpMethod.PUT,
+                new HttpEntity<>(request),
+                new ParameterizedTypeReference<ResponseCommon<Survey.Response>>(){}
+        );
+
+        Survey.Response survey = response.getBody().getData();
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(survey.getSurveyId()).isEqualTo(1);
+        assertThat(survey.getSurveyTitle()).isEqualTo("수정된설문");
+        assertThat(survey.getSurveyVersion()).isEqualTo("2V");
 
     }
 
@@ -160,7 +200,36 @@ public class SurveyRestTest {
     @DisplayName("설문지 삭제 테스트")
     public void deleteSurvey() throws Exception {
         // given
+        Survey.Request request = new Survey.Request();
+        request.setSurveyTitle("새로운설문지");
+        request.setSurveyVersion("1V");
+        request.setUsedYn(true);
+        request.setQuestions(null);
+
+        String url = "http://localhost:" + this.port + "/api/surveys";
+        testRestTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                new HttpEntity<>(request),
+                new ParameterizedTypeReference<ResponseCommon<Survey.Response>>(){}
+        );
+
         Integer surveyId = 1;
 
+        url = "http://localhost:" + this.port + "/api/surveys/" + surveyId;
+        ResponseEntity<HashMap> response = testRestTemplate.exchange(
+                url,
+                HttpMethod.DELETE,
+                null,
+                HashMap.class
+        );
+
+        HashMap<String, Object> result = response.getBody();
+        HashMap<String, Object> data = (HashMap<String, Object>) result.get("data");
+
+        int value = (int) data.get("result");
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(value).isEqualTo(1);
     }
 }
