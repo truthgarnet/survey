@@ -45,6 +45,7 @@ public class SurveyService {
     }
 
     public Survey.Response add(Survey.Request request) {
+        // 1. Survey Add
         SurveyEntity survey = surveyMapper.toSurveyEntity(request);
 
         if (survey == null) {
@@ -53,16 +54,32 @@ public class SurveyService {
 
         survey = surveyRepository.save(survey);
 
+        // 2. Question Add
+        List<QuestionEntity> questionEntities = questionMapper.toQuestionEntityList(survey, request.getQuestions());
 
-        return surveyMapper.toSurveyResponse(survey);
+        for (QuestionEntity question : questionEntities) {
+            questionRepository.save(question);
+        }
+
+        // 3. Entity -> DTO
+        Survey.Response surveyResponse = surveyMapper.toSurveyResponse(survey);
+        List<Question.Response> questionResponses = questionMapper.toQuestionResponseList(questionEntities);
+
+        surveyResponse.setQuestions(questionResponses);
+
+        return surveyResponse;
     }
 
     public Survey.Response updateAll(Integer surveyId, Survey.Request request) {
         // 1. Survey 가져오기
         SurveyEntity survey = surveyRepository.findBySurveyId(surveyId).orElseThrow(() -> new RuntimeException("설문지를 찾을 수 없습니다."));
 
+        request.setSurveyId(surveyId);
         SurveyEntity changeSurvey = surveyMapper.toSurveyEntity(request);
 
+        surveyRepository.save(changeSurvey);
+
+        Survey.Response surveyResponse = new Survey.Response();
         // 2. QuestionEntity 업데이트
         if (request.getQuestions() != null) {
             List<Question.Request> questions = request.getQuestions();
@@ -70,11 +87,17 @@ public class SurveyService {
             for (QuestionEntity question : changeQuestionEntities) {
                 questionRepository.save(question);
             }
+
+            // 3. Entity -> DTO
+            surveyResponse = surveyMapper.toSurveyResponse(changeSurvey);
+            List<Question.Response> questionResponses = questionMapper.toQuestionResponseList(changeQuestionEntities);
+
+            surveyResponse.setQuestions(questionResponses);
         }
 
-        changeSurvey = surveyRepository.save(changeSurvey);
 
-        return surveyMapper.toSurveyResponse(changeSurvey);
+
+        return surveyResponse;
     }
 
     public Survey.Response updatePart(int surveyId, Survey.Request request) {
@@ -86,6 +109,7 @@ public class SurveyService {
             survey.setSurveyTitle(request.getSurveyTitle());
         }
 
+        // 1-1. 빈칸 허용
         if (survey.getSurveyVersion() != null) {
             survey.setSurveyVersion(request.getSurveyVersion());
         }
@@ -95,7 +119,6 @@ public class SurveyService {
         }
 
         request.setSurveyId(surveyId);
-
         SurveyEntity changeSurvey = surveyMapper.toSurveyEntity(request);
 
         // 2. QuestionEntity 업데이트
