@@ -14,7 +14,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.kong.survey.repository.SurveyRepository;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.HashMap;
@@ -22,24 +22,17 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SurveyApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@ExecutionListener
 public class SurveyRestTest {
-
-    @Autowired
-    private SurveyRepository surveyRepository;
 
     @Autowired
     private TestRestTemplate testRestTemplate;
 
     @LocalServerPort
     private int port;
-
-    @BeforeEach
-    public void setUp() {
-        surveyRepository.deleteAll();
-    }
 
     @Test
     @DisplayName("설문지 추가 테스트")
