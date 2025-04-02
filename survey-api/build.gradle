@@ -12,7 +12,6 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test:3.4.3'
     testImplementation 'org.springframework.boot:spring-boot-testcontainers:3.4.3'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.13.0-M2'
     testImplementation 'org.assertj:assertj-core:4.0.0-M1'
 }
 
