@@ -1,3 +1,5 @@
+package integration;
+
 import org.junit.Test;
 import org.junit.jupiter.api.*;
 import org.junit.runner.RunWith;

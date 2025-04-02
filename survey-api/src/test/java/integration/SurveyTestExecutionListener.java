@@ -1,3 +1,5 @@
+package integration;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestContext;
 import org.springframework.test.context.support.AbstractTestExecutionListener;
@@ -22,9 +24,9 @@ public class SurveyTestExecutionListener extends AbstractTestExecutionListener {
     }
 
     private void truncateTables(final JdbcTemplate jdbcTemplate, final List<String> truncateQueries) {
-        execute(jdbcTemplate, "SET REFERENTIAL_INTEGRITY FALSE");
-        truncateQueries.forEach(v -> execute(jdbcTemplate, v));
-        execute(jdbcTemplate, "SET REFERENTIAL_INTEGRITY TRUE");
+        execute(jdbcTemplate, "SET REFERENTIAL_INTEGRITY FALSE"); // 참조 무결성 비활성화
+        truncateQueries.forEach(v -> execute(jdbcTemplate, v)); // TRUNCATE 실행
+        execute(jdbcTemplate, "SET REFERENTIAL_INTEGRITY TRUE"); // 참조 무결성 활성화
     }
 
     private void execute(final JdbcTemplate jdbcTemplate, final String query) {

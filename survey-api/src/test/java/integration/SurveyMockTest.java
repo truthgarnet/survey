@@ -1,3 +1,5 @@
+package integration;
+
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -9,7 +11,6 @@ import org.kong.survey.entity.QuestionEntity;
 import org.kong.survey.entity.SurveyEntity;
 import org.kong.survey.repository.QuestionRepository;
 import org.kong.survey.repository.SurveyRepository;
-import org.kong.survey.service.SurveyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,9 +32,6 @@ public class SurveyMockTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private SurveyService surveyService;
 
     @Autowired
     private SurveyRepository surveyRepository;
