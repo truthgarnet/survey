@@ -7,6 +7,7 @@ import org.kong.survey.dto.Question;
 import org.kong.survey.dto.Survey;
 import org.kong.survey.dto.SurveyFindAll;
 import org.kong.survey.entity.QuestionEntity;
+import org.kong.survey.entity.QuestionType;
 import org.kong.survey.entity.SurveyEntity;
 import org.kong.survey.mapper.QuestionMapper;
 import org.kong.survey.mapper.SurveyMapper;
@@ -162,7 +163,7 @@ public class SurveyServiceTest {
 
         when(surveyRepository.findBySurveyId(surveyId)).thenReturn(Optional.of(mockitoSurvey));
         when(surveyMapper.toSurveyEntity(request)).thenReturn(updatedSurveyEntity);
-        when(questionMapper.toQuestionEntityList(any(), any())).thenReturn(List.of(new QuestionEntity(1, "질문입니다.", 1, mockitoSurvey)));
+        when(questionMapper.toQuestionEntityList(any(), any())).thenReturn(List.of(new QuestionEntity(1, "질문입니다.",  QuestionType.FIVE, 1, mockitoSurvey)));
         when(surveyRepository.save(updatedSurveyEntity)).thenReturn(updatedSurveyEntity);
         when(surveyMapper.toSurveyResponse(updatedSurveyEntity)).thenReturn(new Survey.Response());
 
