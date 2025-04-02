@@ -21,6 +21,9 @@ public class QuestionEntity {
     private String question;
 
     @Column
+    private QuestionType questionType;
+
+    @Column
     private int questionOrder;
 
     @ManyToOne
@@ -28,9 +31,10 @@ public class QuestionEntity {
     private SurveyEntity survey;
 
     @Builder
-    public QuestionEntity(Integer questionId, String question, int questionOrder, SurveyEntity survey) {
+    public QuestionEntity(Integer questionId, String question, QuestionType questionType, int questionOrder, SurveyEntity survey) {
         this.questionId = questionId;
         this.question = question;
+        this.questionType = questionType;
         this.questionOrder = questionOrder;
         this.survey = survey;
     }
