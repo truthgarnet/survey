@@ -1,4 +1,4 @@
-package org.kong.survey.dto;
+package org.kong.survey.entity;
 
 import lombok.Getter;
 
