@@ -29,4 +29,18 @@ public class QuestionMapperImpl implements QuestionMapper {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<Question.Response> toQuestionResponseList(List<QuestionEntity> questionEntityList) {
+        if (questionEntityList == null || questionEntityList.isEmpty()) {
+            return List.of(); // 빈 리스트 반환
+        }
+
+        return questionEntityList.stream()
+                .map(response -> Question.Response.builder()
+                        .question(response.getQuestion())
+                        .questionType(response.getQuestionType())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
 }

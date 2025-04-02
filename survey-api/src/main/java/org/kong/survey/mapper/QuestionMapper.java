@@ -11,6 +11,8 @@ import java.util.List;
 
 public interface QuestionMapper {
 
-    List<QuestionEntity> toQuestionEntityList(SurveyEntity surveyEntities,
+    List<QuestionEntity> toQuestionEntityList(SurveyEntity surveyEntity,
                                                      List<Question.Request> questionRequests);
+
+    List<Question.Response> toQuestionResponseList(List<QuestionEntity> questionEntityList);
 }
