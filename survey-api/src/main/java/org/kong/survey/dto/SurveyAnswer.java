@@ -15,6 +15,7 @@ public class SurveyAnswer {
     @Setter
     public static class Request {
         private int surveyId;
+        private int answerId;
         private String answer;
     }
 

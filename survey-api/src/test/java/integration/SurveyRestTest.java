@@ -5,6 +5,7 @@ import org.junit.jupiter.api.*;
 import org.junit.runner.RunWith;
 import org.kong.SurveyApplication;
 import org.kong.response.ResponseCommon;
+import org.kong.survey.dto.Question;
 import org.kong.survey.dto.Survey;
 import org.kong.survey.dto.SurveyFindAll;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -159,7 +160,7 @@ public class SurveyRestTest {
         request.setQuestions(null);
 
         String url = "http://localhost:" + this.port + "/api/surveys";
-        testRestTemplate.exchange(
+        ResponseEntity<ResponseCommon<Survey.Response>> response = testRestTemplate.exchange(
                 url,
                 HttpMethod.POST,
                 new HttpEntity<>(request),
@@ -169,13 +170,14 @@ public class SurveyRestTest {
         Integer surveyId = 1;
 
         request = new Survey.Request();
+        request.setSurveyId(surveyId);
         request.setSurveyTitle("수정된설문");
         request.setSurveyVersion("2V");
         request.setUsedYn(false);
         request.setQuestions(null);
 
         url = "http://localhost:" + this.port + "/api/surveys/" + surveyId;
-        ResponseEntity<ResponseCommon<Survey.Response>> response = testRestTemplate.exchange(
+        response = testRestTemplate.exchange(
                 url,
                 HttpMethod.PUT,
                 new HttpEntity<>(request),

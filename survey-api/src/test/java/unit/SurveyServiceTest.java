@@ -69,10 +69,10 @@ public class SurveyServiceTest {
         SurveyEntity mockitoSurvey = new SurveyEntity(surveyId, surveyTitle, surveyVersion, true);
 
         Survey.Response mockResponse = new Survey.Response(surveyId, surveyTitle, surveyVersion, LocalDateTime.now(), LocalDateTime.now(), true, null);
+        List<Question.Response> responses = new ArrayList<>();
 
         when(surveyRepository.findBySurveyId(1)).thenReturn(Optional.of(mockitoSurvey));
-
-        when(surveyMapper.toSurveyResponse(mockitoSurvey)).thenReturn(mockResponse);
+        when(surveyMapper.toSurveyResponse(mockitoSurvey, responses)).thenReturn(mockResponse);
 
         // when
         Survey.Response result = surveyService.findBySurveyId(1);
@@ -132,7 +132,6 @@ public class SurveyServiceTest {
     public void delete_Exception() {
         // given
         SurveyEntity survey = new SurveyEntity(1, "설문지", "1V", true);
-        doNothing().when(surveyRepository).delete(survey);
 
         Exception exception = assertThrows(RuntimeException.class, () -> {
             surveyService.delete(1);
@@ -169,7 +168,6 @@ public class SurveyServiceTest {
         // given
         SurveyEntity changeSurvey = new SurveyEntity(1, "설문지", "1V", true);
         Survey.Request request = new Survey.Request();
-        when(surveyRepository.save(changeSurvey)).thenReturn(changeSurvey);
 
         Exception exception = assertThrows(RuntimeException.class, () -> {
             surveyService.updateAll(1, request);
@@ -189,14 +187,16 @@ public class SurveyServiceTest {
         SurveyEntity mockitoSurvey = new SurveyEntity(surveyId, surveyTitle, surveyVersion, true);
         SurveyEntity updatedSurveyEntity = new SurveyEntity(2, "수정된설문지", "2V", false);
 
+        List<Question.Response> responses = new ArrayList<>();
+        List<Question.Request> requests = new ArrayList<>();
         Survey.Request request = new Survey.Request();
-        request.setQuestions(List.of(new Question.Request()));
+        request.setQuestions(requests);
 
         when(surveyRepository.findBySurveyId(surveyId)).thenReturn(Optional.of(mockitoSurvey));
         when(surveyMapper.toSurveyEntity(request)).thenReturn(updatedSurveyEntity);
         when(questionMapper.toQuestionEntityList(any(), any())).thenReturn(List.of(new QuestionEntity(1, "질문입니다.",  QuestionType.FIVE, 1, mockitoSurvey)));
         when(surveyRepository.save(updatedSurveyEntity)).thenReturn(updatedSurveyEntity);
-        when(surveyMapper.toSurveyResponse(updatedSurveyEntity)).thenReturn(new Survey.Response());
+        when(surveyMapper.toSurveyResponse(updatedSurveyEntity, responses)).thenReturn(new Survey.Response());
 
         // when
         Survey.Response result = surveyService.updateAll(surveyId, request);
@@ -219,10 +219,11 @@ public class SurveyServiceTest {
 
         Survey.Request request = new Survey.Request();
         Survey.Response response = new Survey.Response();
+        List<Question.Response> responses = new ArrayList<>();
 
         when(surveyMapper.toSurveyEntity(request)).thenReturn(mockitoSurvey);
         when(surveyRepository.save(any(SurveyEntity.class))).thenReturn(mockitoSurvey);
-        when(surveyMapper.toSurveyResponse(mockitoSurvey)).thenReturn(response);
+        when(surveyMapper.toSurveyResponse(mockitoSurvey, responses)).thenReturn(response);
 
         // when
         Survey.Response result = surveyService.add(request);

@@ -19,6 +19,7 @@ public class Question {
     @Getter
     @Setter
     public static class Request {
+        private Integer questionId;
         private QuestionType questionType;
         private String question;
         private int order;
@@ -26,7 +27,9 @@ public class Question {
     }
 
     @Getter
+    @Setter
     @Builder
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class Response {
         private QuestionType questionType;

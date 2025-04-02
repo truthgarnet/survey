@@ -6,13 +6,17 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter:3.4.3'
     implementation 'org.springframework.boot:spring-boot-starter-tomcat:3.4.3'
     implementation 'org.springframework.boot:spring-boot-devtools:3.4.3'
+    implementation 'org.mapstruct:mapstruct:1.6.3'
     implementation 'com.h2database:h2:2.2.224'
     implementation project(':survey-domain')
     implementation project(':survey-common')
 
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test:3.4.3'
     testImplementation 'org.springframework.boot:spring-boot-testcontainers:3.4.3'
     testImplementation 'org.assertj:assertj-core:4.0.0-M1'
+    testAnnotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
 }
 
 test {

@@ -1,22 +1,27 @@
 package org.kong.survey.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.kong.survey.dto.Question;
 import org.kong.survey.dto.Survey;
 import org.kong.survey.dto.SurveyFindAll;
 import org.kong.survey.entity.QuestionEntity;
 import org.kong.survey.entity.SurveyEntity;
 import org.kong.survey.mapper.QuestionMapper;
+import org.kong.survey.mapper.SurveyAnswerMapper;
 import org.kong.survey.mapper.SurveyMapper;
 import org.kong.survey.repository.QuestionRepository;
+import org.kong.survey.repository.SurveyAnswerRepository;
 import org.kong.survey.repository.SurveyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class SurveyService {
 
     @Autowired
@@ -26,10 +31,16 @@ public class SurveyService {
     private QuestionRepository questionRepository;
 
     @Autowired
+    private SurveyAnswerRepository surveyAnswerRepository;
+
+    @Autowired
     private SurveyMapper surveyMapper;
 
     @Autowired
     private QuestionMapper questionMapper;
+
+    @Autowired
+    private SurveyAnswerMapper surveyAnswerMapper;
 
     public List<SurveyFindAll.Response> findAll() {
         List<SurveyEntity> surveyList = surveyRepository.findAll();
@@ -41,7 +52,16 @@ public class SurveyService {
     public Survey.Response findBySurveyId(Integer surveyId) {
         SurveyEntity survey = surveyRepository.findBySurveyId(surveyId).orElseThrow(() -> new RuntimeException("설문지를 찾을 수 없습니다."));
 
-        return surveyMapper.toSurveyResponse(survey);
+        List<QuestionEntity> questionEntities = questionRepository.findBySurvey_surveyId(surveyId);
+        List<Question.Response> questionResponses = new ArrayList<>();
+        if (questionEntities != null || questionEntities.size() > 0) {
+            for (int i = 0; i < questionEntities.size(); i++) {
+
+            }
+            questionResponses = questionMapper.toQuestionResponseList(questionEntities);
+        }
+
+        return surveyMapper.toSurveyResponse(survey, questionResponses);
     }
 
     public Survey.Response add(Survey.Request request) {
@@ -62,8 +82,11 @@ public class SurveyService {
         }
 
         // 3. Entity -> DTO
-        Survey.Response surveyResponse = surveyMapper.toSurveyResponse(survey);
-        List<Question.Response> questionResponses = questionMapper.toQuestionResponseList(questionEntities);
+        List<Question.Response> questionResponses = new ArrayList<>();
+        if (questionEntities != null || questionEntities.size() > 0) {
+            questionResponses = questionMapper.toQuestionResponseList(questionEntities);
+        }
+        Survey.Response surveyResponse = surveyMapper.toSurveyResponse(survey, questionResponses);
 
         surveyResponse.setQuestions(questionResponses);
 
@@ -80,8 +103,10 @@ public class SurveyService {
         surveyRepository.save(changeSurvey);
 
         Survey.Response surveyResponse = new Survey.Response();
+        List<Question.Response> responses = new ArrayList<>();
         // 2. QuestionEntity 업데이트
         if (request.getQuestions() != null) {
+            log.info("Questions 입장: {}", request.getQuestions());
             List<Question.Request> questions = request.getQuestions();
             List<QuestionEntity> changeQuestionEntities = questionMapper.toQuestionEntityList(changeSurvey, questions);
             for (QuestionEntity question : changeQuestionEntities) {
@@ -89,13 +114,13 @@ public class SurveyService {
             }
 
             // 3. Entity -> DTO
-            surveyResponse = surveyMapper.toSurveyResponse(changeSurvey);
+            responses = questionMapper.toQuestionResponseList(changeQuestionEntities);
             List<Question.Response> questionResponses = questionMapper.toQuestionResponseList(changeQuestionEntities);
 
             surveyResponse.setQuestions(questionResponses);
         }
 
-
+        surveyResponse = surveyMapper.toSurveyResponse(changeSurvey, responses);
 
         return surveyResponse;
     }
@@ -128,8 +153,13 @@ public class SurveyService {
             questionRepository.save(question);
         }
 
+        List<Question.Response> questionResponses = new ArrayList<>();
+        if (questionEntities != null || questionEntities.size() > 0) {
+            questionResponses = questionMapper.toQuestionResponseList(questionEntities);
+        }
+
         surveyRepository.save(changeSurvey);
-        return surveyMapper.toSurveyResponse(changeSurvey);
+        return surveyMapper.toSurveyResponse(changeSurvey, questionResponses);
     }
 
     public Integer delete(Integer surveyId) {
