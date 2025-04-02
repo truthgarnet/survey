@@ -29,6 +29,7 @@ public class Survey {
 
     @Builder
     @Getter
+    @Setter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Response {
