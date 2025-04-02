@@ -5,6 +5,7 @@ import org.kong.survey.dto.Survey;
 import org.kong.survey.dto.SurveyFindAll;
 import org.kong.survey.service.SurveyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +22,8 @@ public class SurveyController {
     private SurveyService surveyService;
 
     @GetMapping("")
-    public ResponseEntity<ResponseCommon<Object>> getSurveyList() {
-        List<SurveyFindAll.Response> surveyList = surveyService.findAll();
+    public ResponseEntity<ResponseCommon<Object>> getSurveyList(@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
+        Page<SurveyFindAll.Response> surveyList = surveyService.findAll(page, size);
 
         ResponseCommon<Object> response = ResponseCommon
                 .builder()

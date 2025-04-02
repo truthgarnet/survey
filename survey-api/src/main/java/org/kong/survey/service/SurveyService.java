@@ -14,10 +14,14 @@ import org.kong.survey.repository.QuestionRepository;
 import org.kong.survey.repository.SurveyAnswerRepository;
 import org.kong.survey.repository.SurveyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -42,11 +46,15 @@ public class SurveyService {
     @Autowired
     private SurveyAnswerMapper surveyAnswerMapper;
 
-    public List<SurveyFindAll.Response> findAll() {
-        List<SurveyEntity> surveyList = surveyRepository.findAll();
-        List<SurveyFindAll.Response> surveyFindAlls = surveyMapper.toSurveyFindAll(surveyList);
+    public Page<SurveyFindAll.Response> findAll(int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<SurveyEntity> surveyList = surveyRepository.findAll(pageRequest);
 
-        return surveyFindAlls;
+        List<SurveyFindAll.Response> surveyFindAlls = surveyMapper.toSurveyFindAll(surveyList.getContent());
+
+        Page<SurveyFindAll.Response> pageSurveyFindAlls = new PageImpl<>(surveyFindAlls, surveyList.getPageable(), surveyList.getTotalPages());
+
+        return pageSurveyFindAlls;
     }
 
     public Survey.Response findBySurveyId(Integer surveyId) {

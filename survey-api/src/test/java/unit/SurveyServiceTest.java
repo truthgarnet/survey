@@ -17,6 +17,7 @@ import org.kong.survey.service.SurveyService;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -112,15 +113,17 @@ public class SurveyServiceTest {
         when(surveyMapper.toSurveyFindAll(surveyEntityList)).thenReturn(expectedResponse);
 
         // when
-        List<SurveyFindAll.Response> result = surveyService.findAll();
+        int page = 0;
+        int size = 10;
+        Page<SurveyFindAll.Response> result = surveyService.findAll(page, size);
 
         // then
         assertThat(result).isNotNull();
-        assertThat(result).hasSize(2);
-        assertThat(result)
+        assertThat(result.getContent()).hasSize(2);
+        assertThat(result.getContent())
                 .extracting(SurveyFindAll.Response::getSurveyId)
                 .containsExactly(1, 2);
-        assertThat(result)
+        assertThat(result.getContent())
                 .extracting(SurveyFindAll.Response::getSurveyTitle)
                 .containsExactly("설문지1", "설문지2");
 

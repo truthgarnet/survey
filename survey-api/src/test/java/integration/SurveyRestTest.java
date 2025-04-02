@@ -5,7 +5,6 @@ import org.junit.jupiter.api.*;
 import org.junit.runner.RunWith;
 import org.kong.SurveyApplication;
 import org.kong.response.ResponseCommon;
-import org.kong.survey.dto.Question;
 import org.kong.survey.dto.Survey;
 import org.kong.survey.dto.SurveyFindAll;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -95,18 +95,21 @@ public class SurveyRestTest {
                 new HttpEntity<>(request2), new ParameterizedTypeReference<ResponseCommon<Survey.Response>>(){}
         );
 
-        url = "http://localhost:" + this.port + "/api/surveys";
+        int page = 0;
+        int size = 10;
 
-        ResponseEntity<ResponseCommon<List<SurveyFindAll.Response>>> response = testRestTemplate.exchange(
+        url = "http://localhost:" + this.port + "/api/surveys?page=" + page + "&size=" + size;
+
+        ResponseEntity<ResponseCommon<Page<SurveyFindAll.Response>>> response = testRestTemplate.exchange(
                 url,
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<ResponseCommon<List<SurveyFindAll.Response>>>(){}
+                new ParameterizedTypeReference<ResponseCommon<Page<SurveyFindAll.Response>>>(){}
         );
 
-        List<SurveyFindAll.Response> survey = response.getBody().getData();
+        Page<SurveyFindAll.Response> survey = response.getBody().getData();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(survey.size()).isEqualTo(2);
+        assertThat(survey.getContent().size()).isEqualTo(2);
 
     }
 
