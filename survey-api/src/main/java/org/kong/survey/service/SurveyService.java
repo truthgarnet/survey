@@ -39,7 +39,7 @@ public class SurveyService {
     }
 
     public Survey.Response findBySurveyId(Integer surveyId) {
-        SurveyEntity survey = surveyRepository.findBySurveyId(surveyId).orElseThrow(() -> new RuntimeException());
+        SurveyEntity survey = surveyRepository.findBySurveyId(surveyId).orElseThrow(() -> new RuntimeException("설문지를 찾을 수 없습니다."));
 
         return surveyMapper.toSurveyResponse(survey);
     }
@@ -48,28 +48,31 @@ public class SurveyService {
         SurveyEntity survey = surveyMapper.toSurveyEntity(request);
 
         if (survey == null) {
-            throw new RuntimeException();
+            throw new RuntimeException("설문지를 찾을 수 없습니다.");
         }
 
         survey = surveyRepository.save(survey);
+
 
         return surveyMapper.toSurveyResponse(survey);
     }
 
     public Survey.Response updateAll(Integer surveyId, Survey.Request request) {
-        surveyRepository.findBySurveyId(surveyId).orElseThrow(() -> new RuntimeException());
+        // 1. Survey 가져오기
+        SurveyEntity survey = surveyRepository.findBySurveyId(surveyId).orElseThrow(() -> new RuntimeException("설문지를 찾을 수 없습니다."));
 
-        request.setSurveyId(surveyId);
         SurveyEntity changeSurvey = surveyMapper.toSurveyEntity(request);
 
         // 2. QuestionEntity 업데이트
-        List<Question.Request> questions = request.getQuestions();
-        List<QuestionEntity> questionEntities = questionMapper.toQuestionEntityList(changeSurvey, questions);
-        for (QuestionEntity question : questionEntities) {
-            questionRepository.save(question);
+        if (request.getQuestions() != null) {
+            List<Question.Request> questions = request.getQuestions();
+            List<QuestionEntity> changeQuestionEntities = questionMapper.toQuestionEntityList(changeSurvey, questions);
+            for (QuestionEntity question : changeQuestionEntities) {
+                questionRepository.save(question);
+            }
         }
 
-        surveyRepository.save(changeSurvey);
+        changeSurvey = surveyRepository.save(changeSurvey);
 
         return surveyMapper.toSurveyResponse(changeSurvey);
     }
@@ -77,7 +80,7 @@ public class SurveyService {
     public Survey.Response updatePart(int surveyId, Survey.Request request) {
         
         // 1. SurveyEntity 업데이트
-        SurveyEntity survey = surveyRepository.findBySurveyId(surveyId).orElseThrow(() -> new RuntimeException());
+        SurveyEntity survey = surveyRepository.findBySurveyId(surveyId).orElseThrow(() -> new RuntimeException("설문지를 찾을 수 없습니다."));
 
         if (survey.getSurveyTitle() != null) {
             survey.setSurveyTitle(request.getSurveyTitle());
@@ -92,6 +95,7 @@ public class SurveyService {
         }
 
         request.setSurveyId(surveyId);
+
         SurveyEntity changeSurvey = surveyMapper.toSurveyEntity(request);
 
         // 2. QuestionEntity 업데이트
@@ -106,7 +110,7 @@ public class SurveyService {
     }
 
     public Integer delete(Integer surveyId) {
-        SurveyEntity survey = surveyRepository.findBySurveyId(surveyId).orElseThrow(() -> new RuntimeException());
+        SurveyEntity survey = surveyRepository.findBySurveyId(surveyId).orElseThrow(() -> new RuntimeException("설문지를 찾을 수 없습니다."));
 
         surveyRepository.delete(survey);
         return 1;
