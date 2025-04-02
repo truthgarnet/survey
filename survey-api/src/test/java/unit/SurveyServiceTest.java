@@ -126,6 +126,21 @@ public class SurveyServiceTest {
 
         verify(surveyRepository, times(1)).findAll();
     }
+
+    @Test
+    @DisplayName("존재하지 않은 설문지에 접근 시 예외 발생 - 설문지 삭제")
+    public void delete_Exception() {
+        // given
+        SurveyEntity survey = new SurveyEntity(1, "설문지", "1V", true);
+        doNothing().when(surveyRepository).delete(survey);
+
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            surveyService.delete(1);
+        });
+
+        // then
+        assertThat(exception.getMessage()).isEqualTo("설문지를 찾을 수 없습니다.");
+    }
     
     @Test
     @DisplayName("정상적인 접근 - 설문지 삭제")
@@ -146,6 +161,22 @@ public class SurveyServiceTest {
         assertThat(result).isEqualTo(1);
 
         verify(surveyRepository, times(1)).delete(mockitoSurvey);
+    }
+
+    @Test
+    @DisplayName("존재하지 않은 설문지에 접근 시 예외 발생 - 설문지 수정")
+    public void updateAll_Exception() {
+        // given
+        SurveyEntity changeSurvey = new SurveyEntity(1, "설문지", "1V", true);
+        Survey.Request request = new Survey.Request();
+        when(surveyRepository.save(changeSurvey)).thenReturn(changeSurvey);
+
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            surveyService.updateAll(1, request);
+        });
+
+        // then
+        assertThat(exception.getMessage()).isEqualTo("설문지를 찾을 수 없습니다.");
     }
 
     @Test
