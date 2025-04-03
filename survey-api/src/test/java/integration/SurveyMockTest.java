@@ -86,22 +86,22 @@ public class SurveyMockTest {
     @DisplayName("설문지 리스트 조회 테스트")
     public void getSurveyList() throws Exception {
 
-        mockMvc.perform(get("/api/surveys"))
+        mockMvc.perform(get("/api/surveys?page=0&size=10"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.code").value(1)) // 응답 코드
                 .andExpect(jsonPath("$.msg").value("설문지 리스트 불러 오기 성공")) // 메세지 확인
-                .andExpect(jsonPath("$.data.size()").value(2))
-                .andExpect(jsonPath("$.data[0].surveyId").value(1))
-                .andExpect(jsonPath("$.data[0].surveyTitle").value("건강설문"))
-                .andExpect(jsonPath("$.data[0].surveyVersion").value("1V"))
-                .andExpect(jsonPath("$.data[0].createdDate").isNotEmpty())
-                .andExpect(jsonPath("$.data[0].updatedDate").isNotEmpty())
-                .andExpect(jsonPath("$.data[1].surveyId").value(2))
-                .andExpect(jsonPath("$.data[1].surveyTitle").value("MBTI설문"))
-                .andExpect(jsonPath("$.data[1].surveyVersion").value("2V"))
-                .andExpect(jsonPath("$.data[1].createdDate").isNotEmpty())
-                .andExpect(jsonPath("$.data[1].updatedDate").isNotEmpty());
+                .andExpect(jsonPath("$.data.content.size()").value(2))
+                .andExpect(jsonPath("$.data.content[0].surveyId").value(1))
+                .andExpect(jsonPath("$.data.content[0].surveyTitle").value("건강설문"))
+                .andExpect(jsonPath("$.data.content[0].surveyVersion").value("1V"))
+                .andExpect(jsonPath("$.data.content[0].createdDate").isNotEmpty())
+                .andExpect(jsonPath("$.data.content[0].updatedDate").isNotEmpty())
+                .andExpect(jsonPath("$.data.content[1].surveyId").value(2))
+                .andExpect(jsonPath("$.data.content[1].surveyTitle").value("MBTI설문"))
+                .andExpect(jsonPath("$.data.content[1].surveyVersion").value("2V"))
+                .andExpect(jsonPath("$.data.content[1].createdDate").isNotEmpty())
+                .andExpect(jsonPath("$.data.content[1].updatedDate").isNotEmpty());
     }
 
     @Test

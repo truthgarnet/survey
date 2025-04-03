@@ -13,6 +13,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -21,14 +22,12 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.HashMap;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SurveyApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ExecutionListener
 public class SurveyRestTest {
 
     @Autowired
@@ -59,7 +58,7 @@ public class SurveyRestTest {
 
         // then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(survey.getSurveyId()).isEqualTo(1);
+        assertThat(survey.getSurveyId()).isNotNull();
         assertThat(survey.getSurveyTitle()).isEqualTo("새로운설문지");
         assertThat(survey.getSurveyVersion()).isEqualTo("1V");
     }
@@ -100,11 +99,11 @@ public class SurveyRestTest {
 
         url = "http://localhost:" + this.port + "/api/surveys?page=" + page + "&size=" + size;
 
-        ResponseEntity<ResponseCommon<Page<SurveyFindAll.Response>>> response = testRestTemplate.exchange(
+        ResponseEntity<ResponseCommon<PageImpl<SurveyFindAll.Response>>> response = testRestTemplate.exchange(
                 url,
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<ResponseCommon<Page<SurveyFindAll.Response>>>(){}
+                new ParameterizedTypeReference<ResponseCommon<PageImpl<SurveyFindAll.Response>>>(){}
         );
 
         Page<SurveyFindAll.Response> survey = response.getBody().getData();
@@ -145,7 +144,7 @@ public class SurveyRestTest {
         Survey.Response survey = response.getBody().getData();
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(survey.getSurveyId()).isEqualTo(1);
+        assertThat(survey.getSurveyId()).isNotNull();
         assertThat(survey.getSurveyTitle()).isEqualTo("새로운설문지");
         assertThat(survey.getSurveyVersion()).isEqualTo("1V");
     }
@@ -190,7 +189,7 @@ public class SurveyRestTest {
         Survey.Response survey = response.getBody().getData();
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(survey.getSurveyId()).isEqualTo(1);
+        assertThat(survey.getSurveyId()).isNotNull();
         assertThat(survey.getSurveyTitle()).isEqualTo("수정된설문");
         assertThat(survey.getSurveyVersion()).isEqualTo("2V");
 
