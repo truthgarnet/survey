@@ -33,9 +33,6 @@ public class SurveyRestTest {
     @Autowired
     private TestRestTemplate testRestTemplate;
 
-    @LocalServerPort
-    private int port;
-
     @Test
     @DisplayName("설문지 추가 테스트")
     public void addSurvey() throws Exception {
@@ -46,7 +43,7 @@ public class SurveyRestTest {
         request.setUsedYn(true);
         request.setQuestions(null);
 
-        String url = "http://localhost:" + this.port + "/api/surveys";
+        String url = "/api/surveys";
         ResponseEntity<ResponseCommon<Survey.Response>> response = testRestTemplate.exchange(
                 url,
                 HttpMethod.POST,
@@ -73,7 +70,7 @@ public class SurveyRestTest {
         request1.setUsedYn(true);
         request1.setQuestions(null);
 
-        String url = "http://localhost:" + this.port + "/api/surveys";
+        String url = "/api/surveys";
         testRestTemplate.exchange(
                 url,
                 HttpMethod.POST,
@@ -86,7 +83,7 @@ public class SurveyRestTest {
         request2.setUsedYn(true);
         request2.setQuestions(null);
 
-        url = "http://localhost:" + this.port + "/api/surveys";
+        url = "/api/surveys";
 
         testRestTemplate.exchange(
                 url,
@@ -97,7 +94,7 @@ public class SurveyRestTest {
         int page = 0;
         int size = 10;
 
-        url = "http://localhost:" + this.port + "/api/surveys?page=" + page + "&size=" + size;
+        url = "/api/surveys?page=" + page + "&size=" + size;
 
         ResponseEntity<ResponseCommon<PageImpl<SurveyFindAll.Response>>> response = testRestTemplate.exchange(
                 url,
@@ -122,7 +119,7 @@ public class SurveyRestTest {
         request.setUsedYn(true);
         request.setQuestions(null);
 
-        String url = "http://localhost:" + this.port + "/api/surveys";
+        String url = "/api/surveys";
         testRestTemplate.exchange(
                 url,
                 HttpMethod.POST,
@@ -132,7 +129,7 @@ public class SurveyRestTest {
 
 
         Integer surveyId = 1;
-        url = "http://localhost:" + this.port + "/api/surveys/" + surveyId;
+        url = "/api/surveys/" + surveyId;
 
         ResponseEntity<ResponseCommon<Survey.Response>> response = testRestTemplate.exchange(
                 url,
@@ -161,7 +158,7 @@ public class SurveyRestTest {
         request.setUsedYn(true);
         request.setQuestions(null);
 
-        String url = "http://localhost:" + this.port + "/api/surveys";
+        String url = "/api/surveys";
         ResponseEntity<ResponseCommon<Survey.Response>> response = testRestTemplate.exchange(
                 url,
                 HttpMethod.POST,
@@ -178,7 +175,7 @@ public class SurveyRestTest {
         request.setUsedYn(false);
         request.setQuestions(null);
 
-        url = "http://localhost:" + this.port + "/api/surveys/" + surveyId;
+        url = "/api/surveys/" + surveyId;
         response = testRestTemplate.exchange(
                 url,
                 HttpMethod.PUT,
@@ -205,7 +202,7 @@ public class SurveyRestTest {
         request.setUsedYn(true);
         request.setQuestions(null);
 
-        String url = "http://localhost:" + this.port + "/api/surveys";
+        String url = "/api/surveys";
         testRestTemplate.exchange(
                 url,
                 HttpMethod.POST,
@@ -215,7 +212,7 @@ public class SurveyRestTest {
 
         Integer surveyId = 1;
 
-        url = "http://localhost:" + this.port + "/api/surveys/" + surveyId;
+        url = "/api/surveys/" + surveyId;
         ResponseEntity<HashMap> response = testRestTemplate.exchange(
                 url,
                 HttpMethod.DELETE,
