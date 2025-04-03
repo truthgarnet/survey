@@ -1,9 +1,6 @@
 package org.kong.survey.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,30 +10,35 @@ import java.util.List;
 @AllArgsConstructor
 public class Survey {
 
-    private int surveyId;
+    private Integer surveyId;
     private String surveyTitle;
     private String surveyVersion;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
     private boolean usedYn;
 
-    @Getter
     @Setter
+    @Getter
     public static class Request {
-        private int surveyId;
+        private Integer surveyId;
         private String surveyTitle;
+        private String surveyVersion;
         private boolean usedYn;
         private List<Question.Request> questions;
     }
 
+    @Builder
     @Getter
-    @AllArgsConstructor
+    @Setter
     @NoArgsConstructor
+    @AllArgsConstructor
     public static class Response {
-        private int surveyId;
+        private Integer surveyId;
         private String surveyTitle;
         private String surveyVersion;
-        private boolean usedYn;
+        private LocalDateTime createdDate;
+        private LocalDateTime updatedDate;
+        private Boolean usedYn;
         private List<Question.Response> questions;
     }
 

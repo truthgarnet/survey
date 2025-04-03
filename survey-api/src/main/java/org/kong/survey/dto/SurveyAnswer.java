@@ -1,9 +1,6 @@
 package org.kong.survey.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @NoArgsConstructor
@@ -17,11 +14,13 @@ public class SurveyAnswer {
     @Getter
     @Setter
     public static class Request {
+        private int surveyId;
+        private int answerId;
         private String answer;
     }
 
     @Getter
-    @AllArgsConstructor
+    @Builder
     public static class Response {
         private int answerId;
         private String answer;

@@ -3,6 +3,9 @@ package org.kong.survey.controller;
 import org.kong.response.ResponseCommon;
 import org.kong.survey.dto.Survey;
 import org.kong.survey.dto.SurveyFindAll;
+import org.kong.survey.service.SurveyService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +18,12 @@ import java.util.List;
 @RequestMapping(value = "/api/surveys")
 public class SurveyController {
 
+    @Autowired
+    private SurveyService surveyService;
+
     @GetMapping("")
     public ResponseEntity<ResponseCommon<Object>> getSurveyList(@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
-        List<SurveyFindAll.Response> surveyList = new ArrayList<>();
+        Page<SurveyFindAll.Response> surveyList = surveyService.findAll(page, size);
 
         ResponseCommon<Object> response = ResponseCommon
                 .builder()
@@ -31,7 +37,7 @@ public class SurveyController {
 
     @GetMapping("/{surveyId}")
     public ResponseEntity<ResponseCommon<Object>> getSurvey(@PathVariable(value = "surveyId") int surveyId) {
-        Survey.Response survey = new Survey.Response();
+        Survey.Response survey = surveyService.findBySurveyId(surveyId);
 
         ResponseCommon<Object> response = ResponseCommon
                 .builder()
@@ -45,7 +51,7 @@ public class SurveyController {
 
     @PostMapping("")
     public ResponseEntity<ResponseCommon<Object>> addSurvey(@RequestBody Survey.Request request) {
-        Survey.Response survey = new Survey.Response();
+        Survey.Response survey = surveyService.add(request);
 
         ResponseCommon<Object> response = ResponseCommon.builder()
                 .code(1)
@@ -59,7 +65,7 @@ public class SurveyController {
     @PutMapping("/{surveyId}")
     public ResponseEntity<ResponseCommon<Object>> updateAll(@PathVariable(value = "surveyId") int surveyId,
                                                             @RequestBody Survey.Request request) {
-        Survey.Response survey = new Survey.Response();
+        Survey.Response survey = surveyService.updateAll(surveyId, request);
 
         ResponseCommon<Object> response = ResponseCommon.builder()
                 .code(1)
@@ -71,8 +77,8 @@ public class SurveyController {
     }
 
     @PatchMapping("/{surveyId}")
-    public ResponseEntity<ResponseCommon<Object>> updatePart(@PathVariable(value = "surveyId") int surveyId) {
-        Survey.Response survey = new Survey.Response();
+    public ResponseEntity<ResponseCommon<Object>> updatePart(@PathVariable(value = "surveyId") int surveyId, @RequestBody Survey.Request request) {
+        Survey.Response survey = surveyService.updatePart(surveyId, request);
 
         ResponseCommon<Object> response = ResponseCommon.builder()
                 .code(1)
@@ -86,7 +92,7 @@ public class SurveyController {
     @DeleteMapping("/{surveyId}")
     public ResponseEntity<ResponseCommon<Object>> deleteSurvey(@PathVariable(value = "surveyId") int surveyId) {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("result", 1);
+        result.put("result", surveyService.delete(surveyId));
 
         ResponseCommon<Object> response = ResponseCommon.builder()
                 .code(1)
