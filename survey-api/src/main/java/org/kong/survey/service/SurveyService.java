@@ -57,9 +57,6 @@ public class SurveyService {
         List<QuestionEntity> questionEntities = questionRepository.findBySurvey_surveyId(surveyId);
         List<Question.Response> questionResponses = new ArrayList<>();
         if (questionEntities != null || questionEntities.size() > 0) {
-            for (int i = 0; i < questionEntities.size(); i++) {
-
-            }
             questionResponses = questionMapper.toQuestionResponseList(questionEntities);
         }
 
