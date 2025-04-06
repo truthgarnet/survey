@@ -6,14 +6,11 @@ import org.kong.survey.dto.Survey;
 import org.kong.survey.dto.SurveyFindAll;
 import org.kong.survey.service.SurveyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/surveys")
