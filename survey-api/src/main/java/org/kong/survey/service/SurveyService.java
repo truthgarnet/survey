@@ -2,6 +2,7 @@ package org.kong.survey.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.kong.survey.dto.PageDto;
 import org.kong.survey.dto.Question;
 import org.kong.survey.dto.Survey;
 import org.kong.survey.dto.SurveyFindAll;
@@ -46,15 +47,17 @@ public class SurveyService {
     @Autowired
     private SurveyAnswerMapper surveyAnswerMapper;
 
-    public Page<SurveyFindAll.Response> findAll(int page, int size) {
+    public PageDto<SurveyFindAll.Response> findAll(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         Page<SurveyEntity> surveyList = surveyRepository.findAll(pageRequest);
 
-        List<SurveyFindAll.Response> surveyFindAlls = surveyMapper.toSurveyFindAll(surveyList.getContent());
+        PageDto surveyFindAlls = surveyMapper.toSurveyFindAll(surveyList);
 
-        Page<SurveyFindAll.Response> pageSurveyFindAlls = new PageImpl<>(surveyFindAlls, surveyList.getPageable(), surveyList.getTotalPages());
-
-        return pageSurveyFindAlls;
+        PageDto<SurveyFindAll.Response> surveyPages = new PageDto<>();
+        surveyPages.setContent(surveyFindAlls.getContent());
+        surveyPages.setTotalPages(surveyList.getTotalPages());
+        surveyPages.setTotalElements(surveyList.getTotalElements());
+        return surveyPages;
     }
 
     public Survey.Response findBySurveyId(Integer surveyId) {

@@ -1,6 +1,7 @@
 package org.kong.survey.controller;
 
 import org.kong.response.ResponseCommon;
+import org.kong.survey.dto.PageDto;
 import org.kong.survey.dto.Survey;
 import org.kong.survey.dto.SurveyFindAll;
 import org.kong.survey.service.SurveyService;
@@ -23,7 +24,7 @@ public class SurveyController {
 
     @GetMapping("")
     public ResponseEntity<ResponseCommon<Object>> getSurveyList(@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
-        Page<SurveyFindAll.Response> surveyList = surveyService.findAll(page, size);
+        PageDto<SurveyFindAll.Response> surveyList = surveyService.findAll(page, size);
 
         ResponseCommon<Object> response = ResponseCommon
                 .builder()

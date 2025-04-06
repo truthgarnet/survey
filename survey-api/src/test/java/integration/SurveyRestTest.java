@@ -5,6 +5,7 @@ import org.junit.jupiter.api.*;
 import org.junit.runner.RunWith;
 import org.kong.SurveyApplication;
 import org.kong.response.ResponseCommon;
+import org.kong.survey.dto.PageDto;
 import org.kong.survey.dto.Survey;
 import org.kong.survey.dto.SurveyFindAll;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,14 +97,15 @@ public class SurveyRestTest {
 
         url = "/api/surveys?page=" + page + "&size=" + size;
 
-        ResponseEntity<ResponseCommon<PageImpl<SurveyFindAll.Response>>> response = testRestTemplate.exchange(
+        ResponseEntity<ResponseCommon<PageDto<SurveyFindAll.Response>>> response = testRestTemplate.exchange(
                 url,
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<ResponseCommon<PageImpl<SurveyFindAll.Response>>>(){}
+                new ParameterizedTypeReference<ResponseCommon<PageDto<SurveyFindAll.Response>>>(){}
         );
 
-        Page<SurveyFindAll.Response> survey = response.getBody().getData();
+        PageDto<SurveyFindAll.Response> survey = response.getBody().getData();
+
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(survey.getContent().size()).isEqualTo(2);
 

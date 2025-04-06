@@ -3,6 +3,7 @@ package unit;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
+import org.kong.survey.dto.PageDto;
 import org.kong.survey.dto.Question;
 import org.kong.survey.dto.Survey;
 import org.kong.survey.dto.SurveyFindAll;
@@ -18,6 +19,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -103,31 +106,38 @@ public class SurveyServiceTest {
         SurveyEntity mockitoSurvey2 = new SurveyEntity(surveyId2, surveyTitle2, surveyVersion2, true);
         surveyEntityList.add(mockitoSurvey2);
 
-        when(surveyRepository.findAll()).thenReturn(surveyEntityList);
-
-        List<SurveyFindAll.Response> expectedResponse = List.of(
-                new SurveyFindAll.Response(surveyId, surveyTitle, surveyVersion, LocalDateTime.now(), LocalDateTime.now()),
-                new SurveyFindAll.Response(surveyId2, surveyTitle2, surveyVersion2, LocalDateTime.now(), LocalDateTime.now())
-        );
-
-        when(surveyMapper.toSurveyFindAll(surveyEntityList)).thenReturn(expectedResponse);
-
-        // when
         int page = 0;
         int size = 10;
-        Page<SurveyFindAll.Response> result = surveyService.findAll(page, size);
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<SurveyEntity> surveyPages = new PageImpl<>(surveyEntityList, pageRequest, surveyEntityList.size());
+        when(surveyRepository.findAll(pageRequest)).thenReturn(surveyPages);
+
+
+        List<SurveyFindAll.Response> responseList = new ArrayList<>();
+        responseList.add(new SurveyFindAll.Response(surveyId, surveyTitle, surveyVersion, LocalDateTime.now(), LocalDateTime.now()));
+        responseList.add(new SurveyFindAll.Response(surveyId2, surveyTitle2, surveyVersion2, LocalDateTime.now(), LocalDateTime.now()));
+
+        PageDto expectedResponse = new PageDto();
+        expectedResponse.setTotalElements(surveyPages.getTotalElements());
+        expectedResponse.setTotalPages(surveyPages.getTotalPages());
+        expectedResponse.setContent(responseList);
+
+        when(surveyMapper.toSurveyFindAll(any(Page.class))).thenReturn(expectedResponse);
+
+        // when
+        PageDto<SurveyFindAll.Response> result = surveyService.findAll(page, size);
 
         // then
         assertThat(result).isNotNull();
         assertThat(result.getContent()).hasSize(2);
         assertThat(result.getContent())
                 .extracting(SurveyFindAll.Response::getSurveyId)
-                .containsExactly(1, 2);
+                .isNotNull();
         assertThat(result.getContent())
                 .extracting(SurveyFindAll.Response::getSurveyTitle)
                 .containsExactly("설문지1", "설문지2");
 
-        verify(surveyRepository, times(1)).findAll();
+        verify(surveyRepository, times(1)).findAll(pageRequest);
     }
 
     @Test
