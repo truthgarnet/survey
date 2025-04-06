@@ -1,11 +1,11 @@
 package org.kong.survey.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.kong.response.ResponseCommon;
 import org.kong.survey.dto.PageDto;
 import org.kong.survey.dto.Survey;
 import org.kong.survey.dto.SurveyFindAll;
 import org.kong.survey.service.SurveyService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +14,10 @@ import java.util.HashMap;
 
 @RestController
 @RequestMapping(value = "/api/surveys")
+@RequiredArgsConstructor
 public class SurveyController {
 
-    @Autowired
-    private SurveyService surveyService;
+    private final SurveyService surveyService;
 
     @GetMapping("")
     public ResponseEntity<ResponseCommon<Object>> getSurveyList(@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {

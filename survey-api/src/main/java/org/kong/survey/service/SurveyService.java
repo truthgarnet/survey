@@ -14,7 +14,6 @@ import org.kong.survey.mapper.SurveyMapper;
 import org.kong.survey.repository.QuestionRepository;
 import org.kong.survey.repository.SurveyAnswerRepository;
 import org.kong.survey.repository.SurveyRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -27,23 +26,17 @@ import java.util.List;
 @Slf4j
 public class SurveyService {
 
-    @Autowired
-    private SurveyRepository surveyRepository;
+    private final SurveyRepository surveyRepository;
 
-    @Autowired
-    private QuestionRepository questionRepository;
+    private final QuestionRepository questionRepository;
 
-    @Autowired
-    private SurveyAnswerRepository surveyAnswerRepository;
+    private final SurveyAnswerRepository surveyAnswerRepository;
 
-    @Autowired
-    private SurveyMapper surveyMapper;
+    private final SurveyMapper surveyMapper;
 
-    @Autowired
-    private QuestionMapper questionMapper;
+    private final QuestionMapper questionMapper;
 
-    @Autowired
-    private SurveyAnswerMapper surveyAnswerMapper;
+    private final SurveyAnswerMapper surveyAnswerMapper;
 
     public PageDto<SurveyFindAll.Response> findAll(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
