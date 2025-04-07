@@ -63,7 +63,7 @@
 
 
 ### 📂Git-Flow 브랜치 전략
-실서버에 올리지 않는 프로젝트로 realse
+실서버에 올리지 않는 프로젝트로 realse, hotfix를 대신해서 multi, design 브랜치를 생성했습니다.
 
 - master: 제품으로 출시될 수 있는 브랜치
 
