@@ -20,29 +20,6 @@
 <br>
 
 ## 🗂️ 프로젝트 폴더 구조
-멀티 모듈 프로젝트 설정 Survey
-
-- 설문조사를 관리할 수 있는 서버입니다.
-
-- 잘못된 코드 습관을 올바르게 고치는 것이 목표입니다.
-
-- 테스트에 대해서 집중해서 작성했습니다.  
-
-<br>
-
-## 🗂️ 프로젝트 사용기술
-- [Spring Boot 3.4.4](https://spring.io/projects/spring-boot)
-- [JDK 17](https://docs.oracle.com/en/java/javase/17/docs/api/index.html)
-- [Gradle](https://gradle.org/)
-- [H2](https://www.h2database.com/html/main.html)
-- [JPA](https://spring.io/projects/spring-data-jpa)
-- [Junit5](https://junit.org/junit5/)
-- [Mapstruct](https://mapstruct.org/)
-- Intellij
-
-<br>
-
-## 🗂️ 프로젝트 폴더 구조
 멀티 모듈을 설정함으로 독립적으로 배포하고 코드의 중복을 제거, 재사용할 수 있게 진행했습니다.
 
 빌드 로직, 작업 및 플로그인을 중앙 집중화 하는 `buildSrc`방식으로 진행했습니다.
