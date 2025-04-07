@@ -76,9 +76,7 @@ public class SurveyService {
         // 2. Question Add
         List<QuestionEntity> questionEntities = questionMapper.toQuestionEntityList(survey, request.getQuestions());
 
-        for (QuestionEntity question : questionEntities) {
-            questionRepository.save(question);
-        }
+        questionRepository.saveAll(questionEntities);
 
         // 3. Entity -> DTO
         List<Question.Response> questionResponses = new ArrayList<>();
@@ -108,9 +106,8 @@ public class SurveyService {
             log.info("Questions 입장: {}", request.getQuestions());
             List<Question.Request> questions = request.getQuestions();
             List<QuestionEntity> changeQuestionEntities = questionMapper.toQuestionEntityList(changeSurvey, questions);
-            for (QuestionEntity question : changeQuestionEntities) {
-                questionRepository.save(question);
-            }
+
+            questionRepository.saveAll(changeQuestionEntities);
 
             // 3. Entity -> DTO
             responses = questionMapper.toQuestionResponseList(changeQuestionEntities);
