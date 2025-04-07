@@ -145,9 +145,8 @@ public class SurveyService {
         // 2. QuestionEntity 업데이트
         List<Question.Request> questions = request.getQuestions();
         List<QuestionEntity> questionEntities = questionMapper.toQuestionEntityList(changeSurvey, questions);
-        for (QuestionEntity question : questionEntities) {
-            questionRepository.save(question);
-        }
+
+        questionRepository.saveAll(questionEntities);
 
         List<Question.Response> questionResponses = new ArrayList<>();
         if (questionEntities != null || questionEntities.size() > 0) {
