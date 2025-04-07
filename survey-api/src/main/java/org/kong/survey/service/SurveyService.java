@@ -17,6 +17,7 @@ import org.kong.survey.repository.SurveyRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +57,7 @@ public class SurveyService {
 
         List<QuestionEntity> questionEntities = questionRepository.findBySurvey_surveyId(surveyId);
         List<Question.Response> questionResponses = new ArrayList<>();
-        if (questionEntities != null || questionEntities.size() > 0) {
+        if (!CollectionUtils.isEmpty(questionEntities)) {
             questionResponses = questionMapper.toQuestionResponseList(questionEntities);
         }
 
@@ -80,7 +81,7 @@ public class SurveyService {
 
         // 3. Entity -> DTO
         List<Question.Response> questionResponses = new ArrayList<>();
-        if (questionEntities != null || questionEntities.size() > 0) {
+        if (!CollectionUtils.isEmpty(questionEntities)) {
             questionResponses = questionMapper.toQuestionResponseList(questionEntities);
         }
         Survey.Response surveyResponse = surveyMapper.toSurveyResponse(survey, questionResponses);
@@ -149,7 +150,7 @@ public class SurveyService {
         questionRepository.saveAll(questionEntities);
 
         List<Question.Response> questionResponses = new ArrayList<>();
-        if (questionEntities != null || questionEntities.size() > 0) {
+        if (!CollectionUtils.isEmpty(questionEntities)) {
             questionResponses = questionMapper.toQuestionResponseList(questionEntities);
         }
 
