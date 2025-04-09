@@ -24,6 +24,9 @@ public interface SurveyMapper {
     // List<SurveyEntity> -> List<SurveyFindAll.Response>
     PageDto toSurveyFindAll(Page<SurveyEntity> surveyList);
 
+    @Mapping(source = "surveyId", target = "surveyId")
+    SurveyEntity toSurveyEntityUpdate(Integer surveyId, Survey.Request survey);
+
     SurveyEntity toSurveyEntity(Survey.Request survey);
 
     List<SurveyFindAll.Response> toSurveyEntityList(List<SurveyEntity> surveyEntities);

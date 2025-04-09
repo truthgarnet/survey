@@ -24,6 +24,7 @@ import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -117,10 +118,12 @@ public class SurveyServiceTest {
         responseList.add(new SurveyFindAll.Response(surveyId, surveyTitle, surveyVersion, LocalDateTime.now(), LocalDateTime.now()));
         responseList.add(new SurveyFindAll.Response(surveyId2, surveyTitle2, surveyVersion2, LocalDateTime.now(), LocalDateTime.now()));
 
-        PageDto expectedResponse = new PageDto();
-        expectedResponse.setTotalElements(surveyPages.getTotalElements());
-        expectedResponse.setTotalPages(surveyPages.getTotalPages());
-        expectedResponse.setContent(responseList);
+        PageDto<SurveyFindAll.Response> expectedResponse = PageDto.<SurveyFindAll.Response>builder()
+                .totalElements(surveyPages.getTotalElements())
+                .totalPages(surveyPages.getTotalPages())
+                .content(responseList)
+                .build();
+
 
         when(surveyMapper.toSurveyFindAll(any(Page.class))).thenReturn(expectedResponse);
 
@@ -180,7 +183,7 @@ public class SurveyServiceTest {
     public void updateAll_Exception() {
         // given
         SurveyEntity changeSurvey = new SurveyEntity(1, "설문지", "1V", true);
-        Survey.Request request = new Survey.Request();
+        Survey.Request request = Survey.Request.builder().build();
 
         Exception exception = assertThrows(RuntimeException.class, () -> {
             surveyService.updateAll(1, request);
@@ -200,16 +203,20 @@ public class SurveyServiceTest {
         SurveyEntity mockitoSurvey = new SurveyEntity(surveyId, surveyTitle, surveyVersion, true);
         SurveyEntity updatedSurveyEntity = new SurveyEntity(2, "수정된설문지", "2V", false);
 
-        List<Question.Response> responses = new ArrayList<>();
         List<Question.Request> requests = new ArrayList<>();
-        Survey.Request request = new Survey.Request();
-        request.setQuestions(requests);
+        List<QuestionEntity> questionEntities = new ArrayList<>();
+        Survey.Request request = Survey.Request.builder()
+                .surveyId(2)
+                .surveyVersion("2V")
+                .surveyTitle("수정된설문지")
+                .questions(requests)
+                .build();
 
         when(surveyRepository.findBySurveyId(surveyId)).thenReturn(Optional.of(mockitoSurvey));
-        when(surveyMapper.toSurveyEntity(request)).thenReturn(updatedSurveyEntity);
+        when(surveyMapper.toSurveyEntityUpdate(surveyId, request)).thenReturn(updatedSurveyEntity);
+        when(questionMapper.toQuestionResponseList(any())).thenReturn(Collections.emptyList());
         when(questionMapper.toQuestionEntityList(any(), any())).thenReturn(List.of(new QuestionEntity(1, "질문입니다.",  QuestionType.FIVE, 1, mockitoSurvey)));
-        when(surveyRepository.save(updatedSurveyEntity)).thenReturn(updatedSurveyEntity);
-        when(surveyMapper.toSurveyResponse(updatedSurveyEntity, responses)).thenReturn(new Survey.Response());
+        when(surveyMapper.toSurveyResponse(any(), any())).thenReturn(new Survey.Response());
 
         // when
         Survey.Response result = surveyService.updateAll(surveyId, request);
@@ -230,7 +237,7 @@ public class SurveyServiceTest {
         String surveyVersion = "1V";
         SurveyEntity mockitoSurvey = new SurveyEntity(surveyId, surveyTitle, surveyVersion, true);
 
-        Survey.Request request = new Survey.Request();
+        Survey.Request request = Survey.Request.builder().build();
         Survey.Response response = new Survey.Response();
         List<Question.Response> responses = new ArrayList<>();
 

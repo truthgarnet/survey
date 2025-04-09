@@ -35,11 +35,12 @@ public class SurveyRestTest {
     @DisplayName("설문지 추가 테스트")
     public void addSurvey() throws Exception {
         // given
-        Survey.Request request = new Survey.Request();
-        request.setSurveyTitle("새로운설문지");
-        request.setSurveyVersion("1V");
-        request.setUsedYn(true);
-        request.setQuestions(null);
+        Survey.Request request = Survey.Request.builder()
+                .surveyTitle("새로운설문지")
+                .surveyVersion("1V")
+                .usedYn(true)
+                .questions(null)
+                .build();
 
         String url = "/api/surveys";
         ResponseEntity<ResponseCommon<Survey.Response>> response = testRestTemplate.exchange(
@@ -62,11 +63,12 @@ public class SurveyRestTest {
     @DisplayName("설문지 리스트 조회 테스트")
     public void getSurveyList() throws Exception {
         // 1. 데이터 저장
-        Survey.Request request1 = new Survey.Request();
-        request1.setSurveyTitle("건강검진");
-        request1.setSurveyVersion("1V");
-        request1.setUsedYn(true);
-        request1.setQuestions(null);
+        Survey.Request request1 = Survey.Request.builder()
+                .surveyTitle("건강검진")
+                .surveyVersion("1V")
+                .usedYn(true)
+                .questions(null)
+                .build();
 
         String url = "/api/surveys";
         testRestTemplate.exchange(
@@ -75,11 +77,12 @@ public class SurveyRestTest {
                 new HttpEntity<>(request1), new ParameterizedTypeReference<ResponseCommon<Survey.Response>>(){}
         );
 
-        Survey.Request request2 = new Survey.Request();
-        request2.setSurveyTitle("건강검진");
-        request2.setSurveyVersion("1V");
-        request2.setUsedYn(true);
-        request2.setQuestions(null);
+        Survey.Request request2 = Survey.Request.builder()
+                .surveyTitle("건강검진")
+                .surveyVersion("1V")
+                .usedYn(true)
+                .questions(null)
+                .build();
 
         url = "/api/surveys";
 
@@ -112,11 +115,12 @@ public class SurveyRestTest {
     @DisplayName("설문지 단건 조회 테스트")
     public void getSurvey() throws Exception {
         // given
-        Survey.Request request = new Survey.Request();
-        request.setSurveyTitle("새로운설문지");
-        request.setSurveyVersion("1V");
-        request.setUsedYn(true);
-        request.setQuestions(null);
+        Survey.Request request = Survey.Request.builder()
+                .surveyTitle("새로운설문지")
+                .surveyVersion("1V")
+                .usedYn(true)
+                .questions(null)
+                .build();
 
         String url = "/api/surveys";
         testRestTemplate.exchange(
@@ -151,11 +155,12 @@ public class SurveyRestTest {
     @DisplayName("설문지 수정 테스트")
     public void updateAll() throws Exception {
         // given
-        Survey.Request request = new Survey.Request();
-        request.setSurveyTitle("새로운설문지");
-        request.setSurveyVersion("1V");
-        request.setUsedYn(true);
-        request.setQuestions(null);
+        Survey.Request request = Survey.Request.builder()
+                .surveyTitle("새로운설문지")
+                .surveyVersion("1V")
+                .usedYn(true)
+                .questions(null)
+                .build();
 
         String url = "/api/surveys";
         ResponseEntity<ResponseCommon<Survey.Response>> response = testRestTemplate.exchange(
@@ -167,12 +172,12 @@ public class SurveyRestTest {
 
         Integer surveyId = 1;
 
-        request = new Survey.Request();
-        request.setSurveyId(surveyId);
-        request.setSurveyTitle("수정된설문");
-        request.setSurveyVersion("2V");
-        request.setUsedYn(false);
-        request.setQuestions(null);
+        request = Survey.Request.builder()
+                .surveyTitle("수정된설문")
+                .surveyVersion("2V")
+                .usedYn(false)
+                .questions(null)
+                .build();
 
         url = "/api/surveys/" + surveyId;
         response = testRestTemplate.exchange(
@@ -195,11 +200,12 @@ public class SurveyRestTest {
     @DisplayName("설문지 삭제 테스트")
     public void deleteSurvey() throws Exception {
         // given
-        Survey.Request request = new Survey.Request();
-        request.setSurveyTitle("새로운설문지");
-        request.setSurveyVersion("1V");
-        request.setUsedYn(true);
-        request.setQuestions(null);
+        Survey.Request request = Survey.Request.builder()
+                .surveyTitle("새로운설문지")
+                .surveyVersion("1V")
+                .usedYn(true)
+                .questions(null)
+                .build();
 
         String url = "/api/surveys";
         testRestTemplate.exchange(
