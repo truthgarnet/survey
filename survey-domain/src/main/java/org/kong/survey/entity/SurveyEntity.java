@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "TB_SURVEY")
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
@@ -41,6 +40,16 @@ public class SurveyEntity {
         this.surveyTitle = surveyTitle;
         this.surveyVersion = surveyVersion;
         this.usedYn = usedYn;
+    }
+
+    public void updateCheckNull(String surveyTitle, String surveyVersion, boolean usedYn) {
+        if (surveyTitle != null) {
+            this.surveyTitle = surveyTitle;
+        }
+
+        if (surveyVersion != null) {
+            this.surveyVersion = surveyVersion;
+        }
     }
 
 }

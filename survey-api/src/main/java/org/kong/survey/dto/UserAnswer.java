@@ -21,7 +21,6 @@ public class UserAnswer {
     private LocalDateTime answerDate;
 
     @Getter
-    @Setter
     public static class Request {
         private int questionId;
         private int answerId;

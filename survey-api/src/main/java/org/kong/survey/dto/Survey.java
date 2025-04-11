@@ -17,7 +17,7 @@ public class Survey {
     private LocalDateTime updatedDate;
     private boolean usedYn;
 
-    @Setter
+    @Builder
     @Getter
     public static class Request {
         private Integer surveyId;
@@ -29,7 +29,6 @@ public class Survey {
 
     @Builder
     @Getter
-    @Setter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Response {

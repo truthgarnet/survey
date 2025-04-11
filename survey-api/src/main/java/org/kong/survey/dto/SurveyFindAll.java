@@ -14,7 +14,7 @@ public class SurveyFindAll {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Response {
-        private int surveyId;
+        private Integer surveyId;
         private String surveyTitle;
         private String surveyVersion;
         private LocalDateTime createdDate;
