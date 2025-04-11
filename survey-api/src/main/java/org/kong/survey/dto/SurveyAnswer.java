@@ -12,7 +12,6 @@ public class SurveyAnswer {
     private String answer;
 
     @Getter
-    @Setter
     public static class Request {
         private int surveyId;
         private int answerId;

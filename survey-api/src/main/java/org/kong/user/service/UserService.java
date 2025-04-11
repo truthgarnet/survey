@@ -1,13 +1,13 @@
 package org.kong.user.service;
 
+import lombok.RequiredArgsConstructor;
 import org.kong.user.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
 }
