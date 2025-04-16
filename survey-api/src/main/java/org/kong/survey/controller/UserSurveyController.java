@@ -1,7 +1,6 @@
 package org.kong.survey.controller;
 
 import org.kong.response.ResponseCommon;
-import org.kong.survey.dto.Survey;
 import org.kong.survey.dto.UserAnswer;
 import org.kong.survey.dto.UserAnswerFindAll;
 import org.springframework.http.HttpStatus;
