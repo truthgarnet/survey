@@ -14,7 +14,6 @@ import org.kong.survey.repository.SurveyAnswerRepository;
 import org.kong.survey.repository.SurveyRepository;
 import org.kong.survey.repository.UserAnswerRepository;
 import org.kong.user.dto.User;
-import org.kong.user.mapper.UserMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -31,8 +30,6 @@ public class UserSurveyService {
     private final UserAnswerRepository userAnswerRepository;
     
     private final SurveyAnswerRepository surveyAnswerRepository;
-
-    private final UserMapper userMapper;
 
     private final SurveyMapper surveyMapper;
 

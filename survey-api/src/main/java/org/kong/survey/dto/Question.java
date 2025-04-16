@@ -26,7 +26,6 @@ public class Question {
     }
 
     @Getter
-    @Builder
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     @AllArgsConstructor
     public static class Response {
