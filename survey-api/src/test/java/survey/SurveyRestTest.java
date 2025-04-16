@@ -1,4 +1,4 @@
-package integration;
+package survey;
 
 import org.junit.Test;
 import org.junit.jupiter.api.*;
