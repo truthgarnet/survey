@@ -104,7 +104,7 @@ public class SurveyService {
             // 3. Entity -> DTO
             responses = questionMapper.toQuestionResponseList(changeQuestionEntities);
         }
-        System.out.println("======responses: " + responses);
+        log.info("======responses: {}", responses);
         surveyResponse = surveyMapper.toSurveyResponse(changeSurvey, responses);
 
         return surveyResponse;
