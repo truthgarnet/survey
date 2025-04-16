@@ -1,9 +1,14 @@
 package org.kong.user.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "TB_USER")
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserEntity {
 
     @Id
@@ -11,4 +16,5 @@ public class UserEntity {
     private Integer userId;
 
     private String userName;
+    private String userNickName;
 }
