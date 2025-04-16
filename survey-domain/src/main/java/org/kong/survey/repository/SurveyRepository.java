@@ -19,6 +19,8 @@ public interface SurveyRepository extends JpaRepository<SurveyEntity, Long> {
 
     Optional<SurveyEntity> findBySurveyId(Integer surveyId);
 
+    Page<SurveyEntity> findByUserId(Pageable pageable, Integer userId);
+
     boolean existsBySurveyId(Integer surveyId);
 
     SurveyEntity save(SurveyEntity survey);

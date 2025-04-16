@@ -1,8 +1,8 @@
-package unit;
+package survey;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.kong.survey.dto.PageDto;
 import org.kong.survey.dto.Question;
 import org.kong.survey.dto.Survey;
@@ -17,7 +17,7 @@ import org.kong.survey.repository.SurveyRepository;
 import org.kong.survey.service.SurveyService;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -32,7 +32,7 @@ import static org.junit.Assert.assertThrows;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class SurveyServiceTest {
 
     @Mock

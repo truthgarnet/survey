@@ -1,4 +1,4 @@
-package integration;
+package survey;
 
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;

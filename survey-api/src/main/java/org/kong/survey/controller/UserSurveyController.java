@@ -1,8 +1,12 @@
 package org.kong.survey.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.kong.response.ResponseCommon;
+import org.kong.survey.dto.PageDto;
 import org.kong.survey.dto.UserAnswer;
 import org.kong.survey.dto.UserAnswerFindAll;
+import org.kong.survey.facade.SurveyFacade;
+import org.kong.survey.service.UserSurveyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,10 +16,18 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/user/surveys")
+@RequiredArgsConstructor
 public class UserSurveyController {
+
+    private final UserSurveyService userSurveyService;
+
+    private final SurveyFacade surveyFacade;
+
     @GetMapping("")
-    public ResponseEntity<ResponseCommon<Object>> getUserSurveyList(@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
-        List<UserAnswerFindAll.Response> surveyList = new ArrayList<>();
+    public ResponseEntity<ResponseCommon<Object>> getUserSurveyList(@RequestParam(value = "page") int page,
+                                                                    @RequestParam(value = "size") int size,
+                                                                    @PathVariable(value = "userId") int userId) {
+        PageDto surveyList = userSurveyService.findListByUserSurveyId(page, size, userId);
 
         ResponseCommon<Object> response = ResponseCommon
                 .builder()
@@ -28,8 +40,9 @@ public class UserSurveyController {
     }
 
     @GetMapping("/{surveyId}/user")
-    public ResponseEntity<ResponseCommon<Object>> getUserSurvey(@PathVariable(value = "surveyId") int surveyId) {
-        UserAnswer.Response survey = new UserAnswer.Response();
+    public ResponseEntity<ResponseCommon<Object>> getUserSurvey(@PathVariable(value = "surveyId") int surveyId,
+                                                                @PathVariable(value = "userId") int userId) {
+        UserAnswer.SurveyResponse survey = surveyFacade.findUserSurvey(surveyId, userId);
 
         ResponseCommon<Object> response = ResponseCommon
                 .builder()
@@ -44,7 +57,7 @@ public class UserSurveyController {
     @PostMapping("/{surveyId}/user")
     public ResponseEntity<ResponseCommon<Object>> writeSurvey(@PathVariable(value = "surveyId") int surveyId,
                                                               @RequestBody List<UserAnswer.Request> request) {
-        UserAnswer.Response survey = new UserAnswer.Response();
+        UserAnswer.SurveyResponse survey = surveyFacade.addSurvey(surveyId, request);
 
         ResponseCommon<Object> response = ResponseCommon
                 .builder()

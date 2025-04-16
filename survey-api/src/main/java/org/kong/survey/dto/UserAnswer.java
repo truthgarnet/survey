@@ -1,13 +1,11 @@
 package org.kong.survey.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.apache.catalina.User;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -28,12 +26,22 @@ public class UserAnswer {
     }
 
     @Getter
+    @Setter
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Response {
         private int questionId;
         private int answerId;
+        private String question;
         private String answer;
         private Date answerDate;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class SurveyResponse {
+        private Integer surveyId;
+        private String surveyTitle;
+        private List<Response> userAnswer;
     }
 }
