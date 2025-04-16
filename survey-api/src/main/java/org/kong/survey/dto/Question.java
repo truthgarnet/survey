@@ -6,7 +6,7 @@ import org.kong.survey.entity.QuestionType;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Question {
 
@@ -27,7 +27,7 @@ public class Question {
 
     @Getter
     @Builder
-    @NoArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
     @AllArgsConstructor
     public static class Response {
         private QuestionType questionType;
