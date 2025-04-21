@@ -21,7 +21,7 @@ public class SurveyController {
 
     @GetMapping("")
     public ResponseEntity<ResponseCommon<Object>> getSurveyList(@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
-        PageDto<SurveyFindAll.Response> surveyList = surveyService.findAll(page, size);
+        PageDto surveyList = surveyService.findAll(page, size);
 
         ResponseCommon<Object> response = ResponseCommon
                 .builder()

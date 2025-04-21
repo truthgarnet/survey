@@ -39,19 +39,13 @@ public class SurveyService {
 
     private final SurveyAnswerMapper surveyAnswerMapper;
 
-    public PageDto<SurveyFindAll.Response> findAll(int page, int size) {
+    public PageDto findAll(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         Page<SurveyEntity> surveyList = surveyRepository.findAll(pageRequest);
 
         PageDto surveyFindAlls = surveyMapper.toSurveyFindAll(surveyList);
 
-        PageDto<SurveyFindAll.Response> surveyPages = PageDto.<SurveyFindAll.Response>builder()
-                        .content(surveyFindAlls.getContent())
-                        .totalPages(surveyList.getTotalPages())
-                        .totalElements(surveyList.getTotalElements())
-                        .build();
-
-        return surveyPages;
+        return surveyFindAlls;
     }
 
     public Survey.Response findBySurveyId(Integer surveyId) {
@@ -110,7 +104,7 @@ public class SurveyService {
             // 3. Entity -> DTO
             responses = questionMapper.toQuestionResponseList(changeQuestionEntities);
         }
-        System.out.println("======responses: " + responses);
+        log.info("======responses: {}", responses);
         surveyResponse = surveyMapper.toSurveyResponse(changeSurvey, responses);
 
         return surveyResponse;
