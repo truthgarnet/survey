@@ -43,5 +43,7 @@ public interface UserAnswerMapper {
         return new UserAnswer.SurveyResponse(surveyId, surveyTitle, responseList);
     }
 
+    UserAnswer.SurveyResponse toUserSurveyResponse(SurveyEntity surveyEntity, List<QuestionEntity> questionEntities, List<UserAnswerEntity> userAnswerEntities);
+
     List<UserAnswerEntity> toUserAnswerEntity(List<UserAnswer.Request> request);
 }

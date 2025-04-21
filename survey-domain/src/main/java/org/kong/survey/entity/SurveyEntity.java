@@ -42,7 +42,7 @@ public class SurveyEntity {
         this.usedYn = usedYn;
     }
 
-    public void updateCheckNull(String surveyTitle, String surveyVersion, boolean usedYn) {
+    public void updateCheckBlank(String surveyTitle, String surveyVersion, boolean usedYn) {
         if (surveyTitle != null) {
             this.surveyTitle = surveyTitle;
         }

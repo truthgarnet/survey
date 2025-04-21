@@ -1,12 +1,17 @@
 package org.kong.survey.facade;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.kong.survey.dto.PageDto;
+import org.kong.survey.dto.Question;
 import org.kong.survey.dto.Survey;
-import org.kong.survey.dto.UserAnswer;
+import org.kong.survey.entity.QuestionEntity;
+import org.kong.survey.entity.SurveyEntity;
+import org.kong.survey.mapper.QuestionMapper;
+import org.kong.survey.mapper.SurveyMapper;
+import org.kong.survey.service.QuestionService;
 import org.kong.survey.service.SurveyService;
-import org.kong.survey.service.UserSurveyService;
-import org.kong.user.dto.User;
-import org.kong.user.service.UserService;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,25 +20,72 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SurveyFacade {
 
-    private final UserService userService;
     private final SurveyService surveyService;
-    private final UserSurveyService userSurveyService;
+    private final QuestionService questionService;
 
-    public UserAnswer.SurveyResponse findUserSurvey(int surveyId, int userId) {
-        // @TODO: 토큰 적용시 변경 예정
-        User.Response user = userService.findUserById(userId); // 사용자 정보
-        Survey.Response survey = surveyService.findBySurveyId(surveyId); // 설문지 정보
-        UserAnswer.SurveyResponse userAnswer = userSurveyService.findUserSurvey(survey, user);
+    private final SurveyMapper surveyMapper;
+    private final QuestionMapper questionMapper;
 
-        return userAnswer;
+    public PageDto findAllSurvey(int page, int size) {
+        Page<SurveyEntity> surveyList = surveyService.findAll(page, size);
+        PageDto surveyFindAll = surveyMapper.toSurveyFindAll(surveyList);
+
+        return surveyFindAll;
     }
 
-    public UserAnswer.SurveyResponse addSurvey(Integer surveyId, List<UserAnswer.Request> request) {
-        // @TODO: 토큰 적용시 변경 예정
-        Integer userId = 1;
-        User.Response user = userService.findUserById(userId);
-        UserAnswer.SurveyResponse userAnswer = userSurveyService.addSurvey(surveyId, user, request);
-        return userAnswer;
+    public Survey.Response findBySurveyId(Integer surveyId) {
+        SurveyEntity survey = surveyService.findBySurveyId(surveyId);
+        List<QuestionEntity> questionEntities = questionService.findBySurvey(surveyId);
+
+        List<Question.Response> questionResponses = questionMapper.toQuestionResponseList(questionEntities);
+
+        return surveyMapper.toSurveyResponse(survey, questionResponses);
+    }
+
+    public Survey.Response add(Survey.Request request) {
+        SurveyEntity survey = surveyService.add(request);
+
+        List<QuestionEntity> questionEntities = questionMapper.toQuestionEntityList(survey, request.getQuestions());
+        questionService.addAll(questionEntities);
+
+        List<Question.Response> questionResponses = questionMapper.toQuestionResponseList(questionEntities);
+
+        return surveyMapper.toSurveyResponse(survey, questionResponses);
+    }
+
+    public Survey.Response updateAll(Integer surveyId, Survey.Request request) {
+         SurveyEntity changeSurvey = surveyService.updateAll(surveyId, request);
+
+         List<Question.Request> questions = request.getQuestions();
+         List<QuestionEntity> changeQuestionEntities = questionMapper.toQuestionEntityList(changeSurvey, questions);
+
+         List<QuestionEntity> changeQuestions = questionService.updateAll(changeQuestionEntities);
+         List<Question.Response> questionResponses = questionMapper.toQuestionResponseList(changeQuestions);
+
+         return surveyMapper.toSurveyResponse(changeSurvey, questionResponses);
+    }
+
+    public Survey.Response updatePart(Integer surveyId, Survey.Request request) {
+        SurveyEntity changeSurvey = surveyService.updatePart(surveyId, request);
+
+        List<Question.Request> questions = request.getQuestions();
+        List<QuestionEntity> changeQuestionEntities = questionMapper.toQuestionEntityList(changeSurvey, questions);
+
+        List<QuestionEntity> changeQuestions = questionService.updateAll(changeQuestionEntities);
+        List<Question.Response> questionResponses = questionMapper.toQuestionResponseList(changeQuestions);
+
+        return surveyMapper.toSurveyResponse(changeSurvey, questionResponses);
+    }
+
+    @Transactional
+    public Object delete(int surveyId) {
+        boolean deleteSurvey = surveyService.delete(surveyId);
+        boolean deleteQuestions = questionService.delete(surveyId);
+
+        if (deleteSurvey && deleteQuestions) {
+            return 1;
+        }
+        return 0;
     }
 
 }

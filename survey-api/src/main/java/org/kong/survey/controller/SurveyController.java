@@ -4,8 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.kong.response.ResponseCommon;
 import org.kong.survey.dto.PageDto;
 import org.kong.survey.dto.Survey;
-import org.kong.survey.dto.SurveyFindAll;
-import org.kong.survey.service.SurveyService;
+import org.kong.survey.facade.SurveyFacade;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,17 +16,17 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 public class SurveyController {
 
-    private final SurveyService surveyService;
+    private final SurveyFacade surveyFacade;
 
     @GetMapping("")
     public ResponseEntity<ResponseCommon<Object>> getSurveyList(@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
-        PageDto surveyList = surveyService.findAll(page, size);
+        PageDto surveyFindAll = surveyFacade.findAllSurvey(page, size);
 
         ResponseCommon<Object> response = ResponseCommon
                 .builder()
                 .code(1)
                 .msg("설문지 리스트 불러 오기 성공")
-                .data(surveyList)
+                .data(surveyFindAll)
                 .build();
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -35,7 +34,7 @@ public class SurveyController {
 
     @GetMapping("/{surveyId}")
     public ResponseEntity<ResponseCommon<Object>> getSurvey(@PathVariable(value = "surveyId") int surveyId) {
-        Survey.Response survey = surveyService.findBySurveyId(surveyId);
+        Survey.Response survey = surveyFacade.findBySurveyId(surveyId);
 
         ResponseCommon<Object> response = ResponseCommon
                 .builder()
@@ -49,7 +48,7 @@ public class SurveyController {
 
     @PostMapping("")
     public ResponseEntity<ResponseCommon<Object>> addSurvey(@RequestBody Survey.Request request) {
-        Survey.Response survey = surveyService.add(request);
+        Survey.Response survey = surveyFacade.add(request);
 
         ResponseCommon<Object> response = ResponseCommon.builder()
                 .code(1)
@@ -63,7 +62,7 @@ public class SurveyController {
     @PutMapping("/{surveyId}")
     public ResponseEntity<ResponseCommon<Object>> updateAll(@PathVariable(value = "surveyId") int surveyId,
                                                             @RequestBody Survey.Request request) {
-        Survey.Response survey = surveyService.updateAll(surveyId, request);
+        Survey.Response survey = surveyFacade.updateAll(surveyId, request);
 
         ResponseCommon<Object> response = ResponseCommon.builder()
                 .code(1)
@@ -76,7 +75,7 @@ public class SurveyController {
 
     @PatchMapping("/{surveyId}")
     public ResponseEntity<ResponseCommon<Object>> updatePart(@PathVariable(value = "surveyId") int surveyId, @RequestBody Survey.Request request) {
-        Survey.Response survey = surveyService.updatePart(surveyId, request);
+        Survey.Response survey = surveyFacade.updatePart(surveyId, request);
 
         ResponseCommon<Object> response = ResponseCommon.builder()
                 .code(1)
@@ -90,7 +89,7 @@ public class SurveyController {
     @DeleteMapping("/{surveyId}")
     public ResponseEntity<ResponseCommon<Object>> deleteSurvey(@PathVariable(value = "surveyId") int surveyId) {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("result", surveyService.delete(surveyId));
+        result.put("result", surveyFacade.delete(surveyId));
 
         ResponseCommon<Object> response = ResponseCommon.builder()
                 .code(1)
