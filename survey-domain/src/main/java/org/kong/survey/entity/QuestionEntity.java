@@ -8,7 +8,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Table(name = "TB_QUESTION")
 @Getter
 @DynamicUpdate
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class QuestionEntity {
 
     @Id

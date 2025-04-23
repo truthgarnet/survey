@@ -21,8 +21,8 @@ public class QuestionService {
         return questionEntities;
     }
 
-    public void addAll(List<QuestionEntity> questionEntities) {
-        questionRepository.saveAll(questionEntities);
+    public List<QuestionEntity> addAll(List<QuestionEntity> questionEntities) {
+        return questionRepository.saveAll(questionEntities);
     }
 
     public List<QuestionEntity> updateAll(List<QuestionEntity> questionEntities) {

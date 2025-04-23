@@ -26,12 +26,12 @@ public class Question {
     }
 
     @Getter
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class Response {
         private QuestionType questionType;
         private String question;
-        private int order;
+        private int questionOrder;
         private List<SurveyAnswer.Response> answers;
     }
 

@@ -19,6 +19,9 @@ public class Survey {
 
     @Builder
     @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class Request {
         private Integer surveyId;
         private String surveyTitle;

@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "TB_SURVEY")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class SurveyEntity {
@@ -50,6 +50,7 @@ public class SurveyEntity {
         if (surveyVersion != null) {
             this.surveyVersion = surveyVersion;
         }
+
     }
 
 }

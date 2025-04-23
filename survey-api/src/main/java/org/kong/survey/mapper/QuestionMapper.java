@@ -36,7 +36,6 @@ public interface QuestionMapper {
 
     List<QuestionEntity> toQuestionEntityList(List<Question.Response> questions);
 
-    @Mapping(source = "questionEntity.questionOrder", target = "order")
     @Mapping(source = "surveyAnswerResponses", target = "answers")
     Question.Response toQuestionResponse(QuestionEntity questionEntity, List<SurveyAnswer.Response> surveyAnswerResponses);
 

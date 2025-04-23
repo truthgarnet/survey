@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Table(name = "TB_USER_ANSWER")
 @Getter
 @DynamicUpdate
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class UserAnswerEntity {
 
 
