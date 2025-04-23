@@ -29,8 +29,8 @@ public class UserSurveyFacade {
     private final SurveyMapper surveyMapper;
     private final UserAnswerMapper userAnswerMapper;
 
-    public PageDto findListByUserSurveyId(int page, int size, int userId) {
-        Page<SurveyEntity> userSurveyList = surveyService.findListByUserSurveyId(page, size, userId);
+    public PageDto findListByUserSurveyId(int page, int size) {
+        Page<SurveyEntity> userSurveyList = surveyService.findAll(page, size);
 
         PageDto surveyUserList = surveyMapper.toSurveyFindAll(userSurveyList);
         return surveyUserList;

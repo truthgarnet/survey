@@ -21,9 +21,8 @@ public class UserSurveyController {
 
     @GetMapping("")
     public ResponseEntity<ResponseCommon<Object>> getUserSurveyList(@RequestParam(value = "page") int page,
-                                                                    @RequestParam(value = "size") int size,
-                                                                    @PathVariable(value = "userId") int userId) {
-        PageDto userSurveyList = userSurveyFacade.findListByUserSurveyId(page, size, userId);
+                                                                    @RequestParam(value = "size") int size) {
+        PageDto userSurveyList = userSurveyFacade.findListByUserSurveyId(page, size);
 
         ResponseCommon<Object> response = ResponseCommon
                 .builder()

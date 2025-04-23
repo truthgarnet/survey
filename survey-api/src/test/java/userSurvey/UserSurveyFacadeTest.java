@@ -1,5 +1,6 @@
 package userSurvey;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kong.survey.dto.PageDto;
@@ -51,26 +52,28 @@ class UserSurveyFacadeTest {
     private UserAnswerMapper userAnswerMapper;
 
     @Test
-    void testFindListByUserSurveyId() {
+    @DisplayName("정상적인 접근 - 모든 설문지 접근(사용자 접근)")
+    void findListByUserSurveyId_Success() {
         // given
-        int page = 0, size = 10, userId = 1;
+        int page = 0, size = 10;
         Page<SurveyEntity> surveyPage = new PageImpl<>(List.of(new SurveyEntity()));
         PageDto pageDto = new PageDto();
 
-        when(surveyService.findListByUserSurveyId(page, size, userId)).thenReturn(surveyPage);
+        when(surveyService.findAll(page, size)).thenReturn(surveyPage);
         when(surveyMapper.toSurveyFindAll(surveyPage)).thenReturn(pageDto);
 
         // when
-        PageDto result = userSurveyFacade.findListByUserSurveyId(page, size, userId);
+        PageDto result = userSurveyFacade.findListByUserSurveyId(page, size);
 
         // then
         assertThat(pageDto).isEqualTo(result);
-        verify(surveyService).findListByUserSurveyId(page, size, userId);
+        verify(surveyService).findAll(page, size);
         verify(surveyMapper).toSurveyFindAll(surveyPage);
     }
 
     @Test
-    void testFindUserSurvey() {
+    @DisplayName("정상적인 접근 - 단건 설문지 접근(사용자 접근)")
+    void findUserSurvey_Success() {
         // given
         Integer surveyId = 1, userId = 1;
 
@@ -94,7 +97,8 @@ class UserSurveyFacadeTest {
     }
 
     @Test
-    void testAddSurvey() {
+    @DisplayName("정상적인 접근 - 단건 설문지 접근(사용자 접근)")
+    void addSurvey_Success() {
         // given
         Integer userId = 1;
         List<UserAnswer.Request> requestList = List.of(new UserAnswer.Request());
