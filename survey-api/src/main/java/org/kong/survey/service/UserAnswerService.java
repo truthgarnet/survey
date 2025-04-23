@@ -15,7 +15,8 @@ public class UserAnswerService {
     private final UserAnswerRepository userAnswerRepository;
 
     public List<UserAnswerEntity> findUserAnswers(List<QuestionEntity> questionEntities, Integer userId) {
-        List<UserAnswerEntity> userAnswerEntities = userAnswerRepository.findByQuestionAndUserId(questionEntities, userId);
+        List<UserAnswerEntity> userAnswerEntities = userAnswerRepository.findByQuestionAndUser_UserId(questionEntities,
+                userId);
         return userAnswerEntities;
     }
 

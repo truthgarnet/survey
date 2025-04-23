@@ -52,16 +52,17 @@ public class UserAnswerServiceTest {
         String userAnswer2 = "168";
 
         UserEntity userEntity = new UserEntity(1, "테스트", "테스트");
-        QuestionEntity questionEntity1 = new QuestionEntity(questionId1, question1, questionType1, 1, SurveyEntity.builder().surveyId(surveyId).build());
-        QuestionEntity questionEntity2 = new QuestionEntity(questionId2, question2, questionType2, 2, SurveyEntity.builder().surveyId(surveyId).build());
+        QuestionEntity questionEntity1 = new QuestionEntity(questionId1, question1, questionType1, 1,
+                SurveyEntity.builder().surveyId(surveyId).build());
+        QuestionEntity questionEntity2 = new QuestionEntity(questionId2, question2, questionType2, 2,
+                SurveyEntity.builder().surveyId(surveyId).build());
         List<QuestionEntity> questionEntityList = List.of(questionEntity1, questionEntity2);
 
         List<UserAnswerEntity> userAnswerEntity = List.of(
-                new UserAnswerEntity(userAnswerId1, userAnswer1, now, userEntity, questionEntity1),
-                new UserAnswerEntity(userAnswerId2, userAnswer2, now, userEntity, questionEntity2)
-        );
+                new UserAnswerEntity(userAnswerId1, 1, userAnswer1, now, userEntity, questionEntity1),
+                new UserAnswerEntity(userAnswerId2, 3, userAnswer2, now, userEntity, questionEntity2));
 
-        when(userAnswerRepository.findByQuestionAndUserId(questionEntityList, userId)).thenReturn(userAnswerEntity);
+        when(userAnswerRepository.findByQuestionAndUser_UserId(questionEntityList, userId)).thenReturn(userAnswerEntity);
 
         // when
         List<UserAnswerEntity> result = userAnswerService.findUserAnswers(questionEntityList, userId);
@@ -72,7 +73,7 @@ public class UserAnswerServiceTest {
         assertThat(result.get(0).getUserAnswerId()).isNotNull();
         assertThat(result.get(1).getUserAnswerId()).isNotNull();
 
-        verify(userAnswerRepository, times(1)).findByQuestionAndUserId(questionEntityList, userId);
+        verify(userAnswerRepository, times(1)).findByQuestionAndUser_UserId(questionEntityList, userId);
     }
 
     @Test
@@ -91,15 +92,15 @@ public class UserAnswerServiceTest {
 
         LocalDateTime now = LocalDateTime.now();
 
-
         UserEntity userEntity = new UserEntity(1, "테스트", "테스트");
-        QuestionEntity questionEntity1 = new QuestionEntity(questionId1, question1, questionType1, 1, SurveyEntity.builder().surveyId(surveyId).build());
-        QuestionEntity questionEntity2 = new QuestionEntity(questionId2, question2, questionType2, 2, SurveyEntity.builder().surveyId(surveyId).build());
+        QuestionEntity questionEntity1 = new QuestionEntity(questionId1, question1, questionType1, 1,
+                SurveyEntity.builder().surveyId(surveyId).build());
+        QuestionEntity questionEntity2 = new QuestionEntity(questionId2, question2, questionType2, 2,
+                SurveyEntity.builder().surveyId(surveyId).build());
 
         List<UserAnswerEntity> userAnswerEntities = List.of(
-                new UserAnswerEntity(1, "답변1", now, userEntity, questionEntity1),
-                new UserAnswerEntity(2, "답변2", now, userEntity, questionEntity2)
-        );
+                new UserAnswerEntity(1, 1, "답변1", now, userEntity, questionEntity1),
+                new UserAnswerEntity(2, 3, "답변2", now, userEntity, questionEntity2));
 
         when(userAnswerRepository.saveAll(userAnswerEntities)).thenReturn(userAnswerEntities);
 
