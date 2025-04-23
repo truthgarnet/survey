@@ -6,7 +6,7 @@ import org.kong.survey.entity.QuestionType;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 public class Question {
 
