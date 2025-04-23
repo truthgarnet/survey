@@ -1,6 +1,5 @@
 package org.kong.survey.facade;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.kong.survey.dto.PageDto;
 import org.kong.survey.dto.Question;
@@ -77,12 +76,10 @@ public class SurveyFacade {
         return surveyMapper.toSurveyResponse(changeSurvey, questionResponses);
     }
 
-    @Transactional
     public Object delete(int surveyId) {
         boolean deleteSurvey = surveyService.delete(surveyId);
-        boolean deleteQuestions = questionService.delete(surveyId);
 
-        if (deleteSurvey && deleteQuestions) {
+        if (deleteSurvey) {
             return 1;
         }
         return 0;

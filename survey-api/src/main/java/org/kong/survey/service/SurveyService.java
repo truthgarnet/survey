@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kong.survey.dto.Survey;
 import org.kong.survey.entity.SurveyEntity;
+import org.kong.survey.entity.SurveyStatus;
 import org.kong.survey.mapper.SurveyMapper;
 import org.kong.survey.repository.SurveyRepository;
 import org.springframework.data.domain.Page;
@@ -19,7 +20,6 @@ public class SurveyService {
 
     private final SurveyMapper surveyMapper;
 
-
     public Page<SurveyEntity> findAll(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         Page<SurveyEntity> surveyList = surveyRepository.findAll(pageRequest);
@@ -31,13 +31,6 @@ public class SurveyService {
         SurveyEntity survey = surveyRepository.findBySurveyId(surveyId).orElseThrow(() -> new RuntimeException("설문지를 찾을 수 없습니다."));
 
         return survey;
-    }
-
-    public Page<SurveyEntity> findListByUserSurveyId(int page, int size, int userId) {
-        PageRequest pageRequest = PageRequest.of(page, size);
-        Page<SurveyEntity> userSurveyList = surveyRepository.findByUserId(pageRequest, userId);
-
-        return userSurveyList;
     }
 
     public SurveyEntity add(Survey.Request request) {
@@ -61,7 +54,7 @@ public class SurveyService {
     }
 
     public SurveyEntity updatePart(int surveyId, Survey.Request request) {
-        
+
         // 1. SurveyEntity 업데이트
         SurveyEntity survey = surveyRepository.findBySurveyId(surveyId).orElseThrow(() -> new RuntimeException("설문지를 찾을 수 없습니다."));
 
@@ -77,7 +70,7 @@ public class SurveyService {
     public boolean delete(Integer surveyId) {
         SurveyEntity survey = surveyRepository.findBySurveyId(surveyId).orElseThrow(() -> new RuntimeException("설문지를 찾을 수 없습니다."));
 
-        surveyRepository.delete(survey);
-        return true;
+        surveyRepository.updateSurveyStatus(surveyId, SurveyStatus.DELETED);
+        return survey.getSurveyStatus() == SurveyStatus.DELETED;
     }
 }

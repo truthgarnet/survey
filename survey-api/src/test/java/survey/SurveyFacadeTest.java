@@ -176,7 +176,6 @@ class SurveyFacadeTest {
         // given
         int surveyId = 1;
         when(surveyService.delete(surveyId)).thenReturn(true);
-        when(questionService.delete(surveyId)).thenReturn(true);
 
         // when
         Object result = surveyFacade.delete(surveyId);

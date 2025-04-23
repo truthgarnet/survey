@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kong.survey.dto.Survey;
 import org.kong.survey.entity.SurveyEntity;
+import org.kong.survey.entity.SurveyStatus;
 import org.kong.survey.mapper.SurveyMapper;
 import org.kong.survey.repository.SurveyRepository;
 import org.kong.survey.service.SurveyService;
@@ -46,7 +47,7 @@ public class SurveyServiceTest {
         // then
         assertThat(exception.getMessage()).isEqualTo("설문지를 찾을 수 없습니다.");
     }
-    
+
     @Test
     @DisplayName("정상적인 접근 - 설문지 단건 조회")
     public void getSurvey_Success() {
@@ -54,7 +55,8 @@ public class SurveyServiceTest {
         Integer surveyId = 1;
         String surveyTitle = "설문지";
         String surveyVersion = "1V";
-        SurveyEntity mockitoSurvey = new SurveyEntity(surveyId, surveyTitle, surveyVersion, true);
+        SurveyEntity mockitoSurvey = new SurveyEntity(surveyId, surveyTitle, surveyVersion, true,
+                SurveyStatus.PUBLISHED);
 
         when(surveyRepository.findBySurveyId(1)).thenReturn(Optional.of(mockitoSurvey));
 
@@ -78,13 +80,15 @@ public class SurveyServiceTest {
         Integer surveyId = 1;
         String surveyTitle = "설문지1";
         String surveyVersion = "1V";
-        SurveyEntity mockitoSurvey1 = new SurveyEntity(surveyId, surveyTitle, surveyVersion, true);
+        SurveyEntity mockitoSurvey1 = new SurveyEntity(surveyId, surveyTitle, surveyVersion, true,
+                SurveyStatus.PUBLISHED);
         surveyEntityList.add(mockitoSurvey1);
 
         Integer surveyId2 = 2;
         String surveyTitle2 = "설문지2";
         String surveyVersion2 = "2V";
-        SurveyEntity mockitoSurvey2 = new SurveyEntity(surveyId2, surveyTitle2, surveyVersion2, true);
+        SurveyEntity mockitoSurvey2 = new SurveyEntity(surveyId2, surveyTitle2, surveyVersion2, true,
+                SurveyStatus.PUBLISHED);
         surveyEntityList.add(mockitoSurvey2);
 
         int page = 0;
@@ -112,7 +116,7 @@ public class SurveyServiceTest {
         // then
         assertThat(exception.getMessage()).isEqualTo("설문지를 찾을 수 없습니다.");
     }
-    
+
     @Test
     @DisplayName("정상적인 접근 - 설문지 삭제")
     public void delete_Success() {
@@ -120,10 +124,11 @@ public class SurveyServiceTest {
         Integer surveyId = 1;
         String surveyTitle = "설문지";
         String surveyVersion = "1V";
-        SurveyEntity mockitoSurvey = new SurveyEntity(surveyId, surveyTitle, surveyVersion, true);
+        SurveyEntity mockitoSurvey = new SurveyEntity(surveyId, surveyTitle, surveyVersion, true,
+                SurveyStatus.DELETED);
 
         when(surveyRepository.findBySurveyId(1)).thenReturn(Optional.of(mockitoSurvey));
-        doNothing().when(surveyRepository).delete(mockitoSurvey);
+        doNothing().when(surveyRepository).updateSurveyStatus(surveyId, SurveyStatus.DELETED);
 
         // when
         boolean result = surveyService.delete(surveyId);
@@ -131,7 +136,7 @@ public class SurveyServiceTest {
         // then
         assertThat(result).isEqualTo(true);
 
-        verify(surveyRepository, times(1)).delete(mockitoSurvey);
+        verify(surveyRepository, times(1)).updateSurveyStatus(surveyId, SurveyStatus.DELETED);
     }
 
     @Test
@@ -153,8 +158,10 @@ public class SurveyServiceTest {
         Integer surveyId = 1;
         String surveyTitle = "설문지";
         String surveyVersion = "1V";
-        SurveyEntity mockitoSurvey = new SurveyEntity(surveyId, surveyTitle, surveyVersion, true);
-        SurveyEntity updatedSurveyEntity = new SurveyEntity(2, "수정된설문지", "2V", false);
+        SurveyEntity mockitoSurvey = new SurveyEntity(surveyId, surveyTitle, surveyVersion, true,
+                SurveyStatus.PUBLISHED);
+        SurveyEntity updatedSurveyEntity = new SurveyEntity(2, "수정된설문지", "2V", false,
+                SurveyStatus.PUBLISHED);
 
         Survey.Request request = Survey.Request.builder()
                 .surveyId(2)
@@ -181,7 +188,8 @@ public class SurveyServiceTest {
         Integer surveyId = 1;
         String surveyTitle = "설문지";
         String surveyVersion = "1V";
-        SurveyEntity mockitoSurvey = new SurveyEntity(surveyId, surveyTitle, surveyVersion, true);
+        SurveyEntity mockitoSurvey = new SurveyEntity(surveyId, surveyTitle, surveyVersion, true,
+                SurveyStatus.PUBLISHED);
 
         Survey.Request request = Survey.Request.builder().build();
 
@@ -196,5 +204,5 @@ public class SurveyServiceTest {
 
         verify(surveyRepository, times(1)).save(any(SurveyEntity.class));
     }
-    
+
 }
