@@ -2,18 +2,15 @@ package org.kong.survey.facade;
 
 import lombok.RequiredArgsConstructor;
 import org.kong.survey.dto.PageDto;
-import org.kong.survey.dto.Question;
 import org.kong.survey.dto.UserAnswer;
 import org.kong.survey.entity.QuestionEntity;
 import org.kong.survey.entity.SurveyEntity;
 import org.kong.survey.entity.UserAnswerEntity;
-import org.kong.survey.mapper.QuestionMapper;
 import org.kong.survey.mapper.SurveyMapper;
 import org.kong.survey.mapper.UserAnswerMapper;
 import org.kong.survey.service.QuestionService;
 import org.kong.survey.service.SurveyService;
 import org.kong.survey.service.UserAnswerService;
-import org.kong.user.mapper.UserMapper;
 import org.kong.user.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -30,7 +27,6 @@ public class UserSurveyFacade {
     private final QuestionService questionService;
 
     private final SurveyMapper surveyMapper;
-    private final QuestionMapper questionMapper;
     private final UserAnswerMapper userAnswerMapper;
 
     public PageDto findListByUserSurveyId(int page, int size, int userId) {

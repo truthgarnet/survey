@@ -41,9 +41,7 @@ public class SurveyServiceTest {
         // given
         when(surveyRepository.findBySurveyId(1)).thenReturn(Optional.empty());
 
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            surveyService.findBySurveyId(1);
-        });
+        Exception exception = assertThrows(RuntimeException.class, () -> surveyService.findBySurveyId(1));
 
         // then
         assertThat(exception.getMessage()).isEqualTo("설문지를 찾을 수 없습니다.");
@@ -109,9 +107,7 @@ public class SurveyServiceTest {
     @DisplayName("존재하지 않은 설문지에 접근 시 예외 발생 - 설문지 삭제")
     public void delete_Exception() {
         // given
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            surveyService.delete(1);
-        });
+        Exception exception = assertThrows(RuntimeException.class, () -> surveyService.delete(1));
 
         // then
         assertThat(exception.getMessage()).isEqualTo("설문지를 찾을 수 없습니다.");
@@ -144,9 +140,7 @@ public class SurveyServiceTest {
         // given
         Survey.Request request = Survey.Request.builder().build();
 
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            surveyService.updateAll(1, request);
-        });
+        Exception exception = assertThrows(RuntimeException.class, () -> surveyService.updateAll(1, request));
 
         // then
         assertThat(exception.getMessage()).isEqualTo("설문지를 찾을 수 없습니다.");

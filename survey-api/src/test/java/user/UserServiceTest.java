@@ -31,9 +31,7 @@ public class UserServiceTest {
         // given
         when(userRepository.findByUserId(1)).thenReturn(Optional.empty());
 
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            userService.findUserById(1);
-        });
+        Exception exception = assertThrows(RuntimeException.class, () -> userService.findUserById(1));
 
         // then
         assertThat(exception.getMessage()).isEqualTo("사용자를 찾을 수 없습니다.");
