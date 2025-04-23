@@ -24,12 +24,13 @@ public class QuestionEntity {
     @Column
     private int questionOrder;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "survey_id")
     private SurveyEntity survey;
 
     @Builder
-    public QuestionEntity(Integer questionId, String question, QuestionType questionType, int questionOrder, SurveyEntity survey) {
+    public QuestionEntity(Integer questionId, String question, QuestionType questionType, int questionOrder,
+            SurveyEntity survey) {
         this.questionId = questionId;
         this.question = question;
         this.questionType = questionType;
