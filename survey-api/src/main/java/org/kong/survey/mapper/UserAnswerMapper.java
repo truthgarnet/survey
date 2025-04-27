@@ -43,5 +43,12 @@ public interface UserAnswerMapper {
         return new UserAnswer.SurveyResponse(surveyId, surveyTitle, responseList);
     }
 
+    UserAnswer.SurveyResponse toUserSurveyResponse(SurveyEntity surveyEntity, List<QuestionEntity> questionEntities,
+            List<UserAnswerEntity> userAnswerEntities);
+
+    @Mapping(source = "questionId", target = "question.questionId")
+    @Mapping(source = "userAnswer", target = "userAnswer")
+    UserAnswerEntity toUserAnswerEntity(UserAnswer.Request request);
+
     List<UserAnswerEntity> toUserAnswerEntity(List<UserAnswer.Request> request);
 }

@@ -18,14 +18,14 @@ public class SurveyAnswerEntity {
     @Column(length = 1000)
     private String answer;
 
-    @ManyToOne
-    @JoinColumn(name = "survey_id")
-    private SurveyEntity survey;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "question_id")
+    private QuestionEntity question;
 
     @Builder
-    public SurveyAnswerEntity(Integer answerId, String answer, SurveyEntity survey) {
+    public SurveyAnswerEntity(Integer answerId, String answer, QuestionEntity question) {
         this.answerId = answerId;
         this.answer = answer;
-        this.survey = survey;
+        this.question = question;
     }
 }

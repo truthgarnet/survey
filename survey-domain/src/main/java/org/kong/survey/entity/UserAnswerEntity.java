@@ -11,13 +11,14 @@ import java.time.LocalDateTime;
 @Table(name = "TB_USER_ANSWER")
 @Getter
 @DynamicUpdate
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class UserAnswerEntity {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer userAnswerId;
+
+    private Integer surveyAnswerId;
 
     private String userAnswer;
 
@@ -27,14 +28,15 @@ public class UserAnswerEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
     private QuestionEntity question;
 
     @Builder
-    public UserAnswerEntity(Integer userAnswerId, String userAnswer,
-                            LocalDateTime answerDate, UserEntity user, QuestionEntity question) {
+    public UserAnswerEntity(Integer userAnswerId, Integer surveyAnswerId, String userAnswer,
+            LocalDateTime answerDate, UserEntity user, QuestionEntity question) {
         this.userAnswerId = userAnswerId;
+        this.surveyAnswerId = surveyAnswerId;
         this.userAnswer = userAnswer;
         this.answerDate = answerDate;
         this.user = user;
