@@ -2,6 +2,8 @@ package org.kong.survey.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.kong.exception.CustomException;
+import org.kong.exception.ErrorCode;
 import org.kong.survey.dto.Survey;
 import org.kong.survey.entity.SurveyEntity;
 import org.kong.survey.entity.SurveyStatus;
@@ -28,7 +30,7 @@ public class SurveyService {
     }
 
     public SurveyEntity findBySurveyId(Integer surveyId) {
-        SurveyEntity survey = surveyRepository.findBySurveyId(surveyId).orElseThrow(() -> new RuntimeException("설문지를 찾을 수 없습니다."));
+        SurveyEntity survey = surveyRepository.findBySurveyId(surveyId).orElseThrow(() -> new CustomException(ErrorCode.SERVICE_NOT_FOUND));
 
         return survey;
     }
@@ -37,7 +39,7 @@ public class SurveyService {
         // 1. Survey Add
         SurveyEntity survey = surveyMapper.toSurveyEntity(request);
 
-        if (survey == null) throw new RuntimeException("설문지를 찾을 수 없습니다.");
+        if (survey == null) throw new CustomException(ErrorCode.SERVICE_NOT_FOUND);
 
         survey = surveyRepository.save(survey);
 
@@ -45,7 +47,7 @@ public class SurveyService {
     }
 
     public SurveyEntity updateAll(Integer surveyId, Survey.Request request) {
-        surveyRepository.findBySurveyId(surveyId).orElseThrow(() -> new RuntimeException("설문지를 찾을 수 없습니다."));
+        surveyRepository.findBySurveyId(surveyId).orElseThrow(() -> new CustomException(ErrorCode.SERVICE_NOT_FOUND));
 
         SurveyEntity changeSurvey = surveyMapper.toSurveyEntityUpdate(surveyId, request);
         surveyRepository.save(changeSurvey);
@@ -56,7 +58,7 @@ public class SurveyService {
     public SurveyEntity updatePart(int surveyId, Survey.Request request) {
 
         // 1. SurveyEntity 업데이트
-        SurveyEntity survey = surveyRepository.findBySurveyId(surveyId).orElseThrow(() -> new RuntimeException("설문지를 찾을 수 없습니다."));
+        SurveyEntity survey = surveyRepository.findBySurveyId(surveyId).orElseThrow(() -> new CustomException(ErrorCode.SERVICE_NOT_FOUND));
 
         // 1-1. 빈칸 체크
         survey.updateCheckBlank(survey.getSurveyTitle(), survey.getSurveyVersion(), survey.getUsedYn());
@@ -68,7 +70,7 @@ public class SurveyService {
     }
 
     public boolean delete(Integer surveyId) {
-        SurveyEntity survey = surveyRepository.findBySurveyId(surveyId).orElseThrow(() -> new RuntimeException("설문지를 찾을 수 없습니다."));
+        SurveyEntity survey = surveyRepository.findBySurveyId(surveyId).orElseThrow(() -> new CustomException(ErrorCode.SERVICE_NOT_FOUND));
 
         surveyRepository.updateSurveyStatus(surveyId, SurveyStatus.DELETED);
         return survey.getSurveyStatus() == SurveyStatus.DELETED;
