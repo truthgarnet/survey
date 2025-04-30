@@ -1,9 +1,6 @@
-package org.kong.user.service;
+package org.kong.details;
 
 import lombok.RequiredArgsConstructor;
-import org.kong.exception.CustomException;
-import org.kong.exception.ErrorCode;
-import org.kong.user.dto.CustomUserDetails;
 import org.kong.user.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,10 +1,11 @@
-package org.kong.jwt;
+package org.kong.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.kong.user.dto.CustomUserDetails;
+import org.kong.details.CustomUserDetails;
+import org.kong.util.JwtUtil;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

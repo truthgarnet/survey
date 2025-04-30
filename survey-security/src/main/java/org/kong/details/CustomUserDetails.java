@@ -1,4 +1,4 @@
-package org.kong.user.dto;
+package org.kong.details;
 
 import lombok.RequiredArgsConstructor;
 import org.kong.user.entity.UserEntity;

@@ -1,4 +1,4 @@
-package org.kong.jwt;
+package org.kong.util;
 
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +12,7 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private SecretKey secretKey;
+    private final SecretKey secretKey;
 
     public JwtUtil(@Value("${spring.jwt.secret}") String secret) {
         this.secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());

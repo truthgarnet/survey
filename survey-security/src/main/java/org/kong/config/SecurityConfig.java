@@ -2,8 +2,7 @@ package org.kong.config;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.kong.jwt.JwtUtil;
-import org.kong.jwt.LoginFilter;
+import org.kong.util.JwtUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
@@ -44,7 +42,7 @@ public class SecurityConfig {
                         .configurationSource(new CorsConfigurationSource() {
                             @Override
                             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
-                                return setCorsConfiguration(request);
+                                return setCorsConfiguration();
                             }
                         }));
         http
@@ -53,12 +51,9 @@ public class SecurityConfig {
                 .formLogin((auth) -> auth.disable());
         http
                 .httpBasic((auth) -> auth.disable());
-        http
-                .authorizeHttpRequests((auth) -> auth.requestMatchers("/login", "/", "/join").permitAll()
-                        .anyRequest().authenticated());
-
-        http
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
+//        http
+//                .authorizeHttpRequests((auth) -> auth.requestMatchers("/login", "/", "/join").permitAll()
+//                        .anyRequest().authenticated());
 
         http
                 .sessionManagement((session) -> session
@@ -66,7 +61,7 @@ public class SecurityConfig {
         return http.build();
     }
 
-    public CorsConfiguration setCorsConfiguration(HttpServletRequest request) {
+    public CorsConfiguration setCorsConfiguration() {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
