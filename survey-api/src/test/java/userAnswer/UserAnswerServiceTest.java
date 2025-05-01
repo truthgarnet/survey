@@ -51,7 +51,7 @@ public class UserAnswerServiceTest {
         Integer userAnswerId2 = 2;
         String userAnswer2 = "168";
 
-        UserEntity userEntity = new UserEntity(1, "테스트", "테스트");
+        UserEntity userEntity = new UserEntity("테스트", "테스트", "USER");
         QuestionEntity questionEntity1 = new QuestionEntity(questionId1, question1, questionType1, 1,
                 SurveyEntity.builder().surveyId(surveyId).build());
         QuestionEntity questionEntity2 = new QuestionEntity(questionId2, question2, questionType2, 2,
@@ -92,7 +92,7 @@ public class UserAnswerServiceTest {
 
         LocalDateTime now = LocalDateTime.now();
 
-        UserEntity userEntity = new UserEntity(1, "테스트", "테스트");
+        UserEntity userEntity = new UserEntity("테스트", "테스트", "USER");
         QuestionEntity questionEntity1 = new QuestionEntity(questionId1, question1, questionType1, 1,
                 SurveyEntity.builder().surveyId(surveyId).build());
         QuestionEntity questionEntity2 = new QuestionEntity(questionId2, question2, questionType2, 2,

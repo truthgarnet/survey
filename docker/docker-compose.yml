@@ -1,0 +1,14 @@
+services:
+  db:
+    image: mysql
+    container_name: mysql_container
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: survey
+      MYSQL_USER: survey
+      MYSQL_PASSWORD: password
+    volumes:
+      - "./db/mysql/data:/var/lib/mysql"

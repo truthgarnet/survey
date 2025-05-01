@@ -41,11 +41,10 @@ public class UserServiceTest {
     @DisplayName("정상 접근 - 사용자 정보 조회")
     public void getUser_Success() {
         // given
-        Integer userId = 1;
         String userName = "사용자1";
         String userNickName = "사용자1";
 
-        UserEntity mockitoUser = new UserEntity(userId, userName, userNickName);
+        UserEntity mockitoUser = new UserEntity(userName, userNickName, "USER");
         when(userRepository.findByUserId(1)).thenReturn(Optional.of(mockitoUser));
 
         // when
