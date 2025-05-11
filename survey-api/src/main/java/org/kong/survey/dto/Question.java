@@ -22,6 +22,7 @@ public class Question {
         private QuestionType questionType;
         private String question;
         private int order;
+        private boolean isRequired;
         List<SurveyAnswer.Request> answers;
     }
 

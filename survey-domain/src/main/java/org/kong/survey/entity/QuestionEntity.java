@@ -24,17 +24,21 @@ public class QuestionEntity {
     @Column
     private int questionOrder;
 
+    @Column
+    private boolean isRequired;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "survey_id")
     private SurveyEntity survey;
 
     @Builder
     public QuestionEntity(Integer questionId, String question, QuestionType questionType, int questionOrder,
-            SurveyEntity survey) {
+            boolean isRequired, SurveyEntity survey) {
         this.questionId = questionId;
         this.question = question;
         this.questionType = questionType;
         this.questionOrder = questionOrder;
+        this.isRequired = isRequired;
         this.survey = survey;
     }
 }

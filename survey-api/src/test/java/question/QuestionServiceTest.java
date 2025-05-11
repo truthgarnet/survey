@@ -43,8 +43,8 @@ public class QuestionServiceTest {
         QuestionType questionType2 = QuestionType.SUB;
 
         List<QuestionEntity> mockitoQuestions = List.of(
-                new QuestionEntity(questionId1, question1, questionType1,1, SurveyEntity.builder().surveyId(surveyId).build()),
-                new QuestionEntity(questionId2, question2, questionType2,2, SurveyEntity.builder().surveyId(surveyId).build())
+                new QuestionEntity(questionId1, question1, questionType1, 1, true, SurveyEntity.builder().surveyId(surveyId).build()),
+                new QuestionEntity(questionId2, question2, questionType2, 2, false, SurveyEntity.builder().surveyId(surveyId).build())
         );
 
         when(questionRepository.findBySurvey_surveyId(surveyId)).thenReturn(mockitoQuestions);
@@ -75,10 +75,9 @@ public class QuestionServiceTest {
         QuestionType questionType2 = QuestionType.SUB;
 
         List<QuestionEntity> questionEntities = List.of(
-                new QuestionEntity(questionId1, question1, questionType1,1, SurveyEntity.builder().surveyId(surveyId).build()),
-                new QuestionEntity(questionId2, question2, questionType2,2, SurveyEntity.builder().surveyId(surveyId).build())
+                new QuestionEntity(questionId1, question1, questionType1, 1, true, SurveyEntity.builder().surveyId(surveyId).build()),
+                new QuestionEntity(questionId2, question2, questionType2, 2, false, SurveyEntity.builder().surveyId(surveyId).build())
         );
-
 
         // when
         questionService.addAll(questionEntities);
@@ -115,13 +114,13 @@ public class QuestionServiceTest {
         QuestionType questionType2 = QuestionType.SUB;
 
         List<QuestionEntity> savedQuestions = List.of(
-                new QuestionEntity(questionId1, question1, questionType1,1, SurveyEntity.builder().surveyId(surveyId).build()),
-                new QuestionEntity(questionId2, question2, questionType2,2, SurveyEntity.builder().surveyId(surveyId).build())
+                new QuestionEntity(questionId1, question1, questionType1, 1, true, SurveyEntity.builder().surveyId(surveyId).build()),
+                new QuestionEntity(questionId2, question2, questionType2, 2, false, SurveyEntity.builder().surveyId(surveyId).build())
         );
 
         List<QuestionEntity> changeQuestions = List.of(
-                new QuestionEntity(questionId1, question1, questionType1,1, SurveyEntity.builder().surveyId(surveyId).build()),
-                new QuestionEntity(questionId2, question2, questionType2,2, SurveyEntity.builder().surveyId(surveyId).build())
+                new QuestionEntity(questionId1, question1, questionType1, 1, true, SurveyEntity.builder().surveyId(surveyId).build()),
+                new QuestionEntity(questionId2, question2, questionType2, 2, false, SurveyEntity.builder().surveyId(surveyId).build())
         );
 
         when(questionRepository.saveAll(savedQuestions)).thenReturn(changeQuestions);
@@ -132,7 +131,6 @@ public class QuestionServiceTest {
         // then
         assertEquals(changeQuestions, result);
         verify(questionRepository, times(1)).saveAll(savedQuestions);
-
     }
 
     @Test
@@ -149,8 +147,8 @@ public class QuestionServiceTest {
         QuestionType questionType2 = QuestionType.SUB;
 
         List<QuestionEntity> mockitoQuestions = List.of(
-                new QuestionEntity(questionId1, question1, questionType1,1, SurveyEntity.builder().surveyId(surveyId).build()),
-                new QuestionEntity(questionId2, question2, questionType2,2, SurveyEntity.builder().surveyId(surveyId).build())
+                new QuestionEntity(questionId1, question1, questionType1, 1, true, SurveyEntity.builder().surveyId(surveyId).build()),
+                new QuestionEntity(questionId2, question2, questionType2, 2, false, SurveyEntity.builder().surveyId(surveyId).build())
         );
 
         when(questionRepository.findBySurvey_surveyId(surveyId)).thenReturn(mockitoQuestions);
