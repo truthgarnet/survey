@@ -1,4 +1,6 @@
 spring:
+  jwt:
+    secret: alksdjklasdjlkasdjlaskjdklasjdlkasjdlkasjdlksajdlkasjdlksajldks
   data:
     h2:
       console:
@@ -7,8 +9,8 @@ spring:
     datasource:
       driver-class-name: org.h2.Driver
       url: jdbc:h2:survey:db;
-      username: sa
-      password:
+      username: survey
+      password: password
     jpa:
       hibernate:
         ddl-auto: create

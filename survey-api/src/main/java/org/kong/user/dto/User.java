@@ -6,13 +6,10 @@ import lombok.*;
 @AllArgsConstructor
 public class User {
 
-    private Integer userId;
-    private String userName;
-    private String userNickName;
-
     @Getter
     public static class Request {
         private int userId;
+        private String userPwd;
     }
 
     @Getter

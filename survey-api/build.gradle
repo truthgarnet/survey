@@ -9,6 +9,7 @@ dependencies {
     implementation 'org.mapstruct:mapstruct:1.6.3'
     implementation 'com.h2database:h2'
     implementation project(':survey-domain')
+    implementation project(':survey-security')
     implementation project(':survey-common')
 
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
