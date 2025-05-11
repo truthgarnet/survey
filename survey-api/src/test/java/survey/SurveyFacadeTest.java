@@ -54,7 +54,8 @@ class SurveyFacadeTest {
         when(surveyMapper.toSurveyFindAll(mockPage)).thenReturn(pageDto);
 
         // when
-        PageDto result = surveyFacade.findAllSurvey(page, size);
+        String search = "title";
+        PageDto result = surveyFacade.findAllSurvey(page, size, search);
 
         // then
         assertThat(pageDto).isEqualTo(result);

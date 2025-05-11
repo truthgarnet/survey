@@ -29,6 +29,13 @@ public class SurveyService {
         return surveyList;
     }
 
+    public Page<SurveyEntity> findBySurveyTitle(int page, int size, String surveyTitle) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<SurveyEntity> surveyList = surveyRepository.findBySurveyTitle(pageRequest, surveyTitle);
+
+        return surveyList;
+    }
+
     public SurveyEntity findBySurveyId(Integer surveyId) {
         SurveyEntity survey = surveyRepository.findBySurveyId(surveyId).orElseThrow(() -> new CustomException(ErrorCode.SERVICE_NOT_FOUND));
 
