@@ -1,6 +1,9 @@
 package org.kong.survey.facade;
 
 import lombok.RequiredArgsConstructor;
+
+import org.kong.exception.CustomException;
+import org.kong.exception.ErrorCode;
 import org.kong.survey.dto.PageDto;
 import org.kong.survey.dto.UserAnswer;
 import org.kong.survey.entity.QuestionEntity;
@@ -14,8 +17,12 @@ import org.kong.survey.service.UserAnswerService;
 import org.kong.user.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.kong.survey.repository.QuestionRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +35,9 @@ public class UserSurveyFacade {
 
     private final SurveyMapper surveyMapper;
     private final UserAnswerMapper userAnswerMapper;
+
+    @Autowired
+    private QuestionRepository questionRepository;
 
     public PageDto findListByUserSurveyId(int page, int size) {
         Page<SurveyEntity> userSurveyList = surveyService.findAll(page, size);
@@ -51,17 +61,25 @@ public class UserSurveyFacade {
         return userAnswer;
     }
 
+    @Transactional
     public UserAnswer.SurveyResponse addSurvey(List<UserAnswer.Request> request) {
         // @TODO: 토큰 적용시 변경 예정
         Integer userId = 1;
         userService.findUserById(userId);
 
-        List<UserAnswerEntity> userAnswerEntities = userAnswerMapper.toUserAnswerEntity(request);
+        // 필수 답변이 아닌 경우 답변을 넣지 않아도 정상 처리
+        List<UserAnswer.Request> filteredRequests = request.stream()
+                .filter(req -> {
+                    QuestionEntity question = questionRepository.findByQuestionId(req.getQuestionId())
+                            .orElseThrow(() -> new CustomException(ErrorCode.QUESTION_NOT_FOUND));
+                    return question.isRequired() || req.getUserAnswer() != null;
+                })
+                .collect(Collectors.toList());
+
+        List<UserAnswerEntity> userAnswerEntities = userAnswerMapper.toUserAnswerEntity(filteredRequests);
         List<UserAnswerEntity> saveUserAnswers = userAnswerService.addSurvey(userAnswerEntities);
         UserAnswer.SurveyResponse userAnswer = userAnswerMapper.toUserAnswerResponse(saveUserAnswers);
-
         return userAnswer;
     }
-
 
 }

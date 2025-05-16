@@ -52,9 +52,9 @@ public class UserAnswerServiceTest {
         String userAnswer2 = "168";
 
         UserEntity userEntity = new UserEntity("테스트", "테스트", "USER");
-        QuestionEntity questionEntity1 = new QuestionEntity(questionId1, question1, questionType1, 1,
+        QuestionEntity questionEntity1 = new QuestionEntity(questionId1, question1, questionType1, 1, true,
                 SurveyEntity.builder().surveyId(surveyId).build());
-        QuestionEntity questionEntity2 = new QuestionEntity(questionId2, question2, questionType2, 2,
+        QuestionEntity questionEntity2 = new QuestionEntity(questionId2, question2, questionType2, 2, false,
                 SurveyEntity.builder().surveyId(surveyId).build());
         List<QuestionEntity> questionEntityList = List.of(questionEntity1, questionEntity2);
 
@@ -93,9 +93,9 @@ public class UserAnswerServiceTest {
         LocalDateTime now = LocalDateTime.now();
 
         UserEntity userEntity = new UserEntity("테스트", "테스트", "USER");
-        QuestionEntity questionEntity1 = new QuestionEntity(questionId1, question1, questionType1, 1,
+        QuestionEntity questionEntity1 = new QuestionEntity(questionId1, question1, questionType1, 1, true,
                 SurveyEntity.builder().surveyId(surveyId).build());
-        QuestionEntity questionEntity2 = new QuestionEntity(questionId2, question2, questionType2, 2,
+        QuestionEntity questionEntity2 = new QuestionEntity(questionId2, question2, questionType2, 2, false,
                 SurveyEntity.builder().surveyId(surveyId).build());
 
         List<UserAnswerEntity> userAnswerEntities = List.of(

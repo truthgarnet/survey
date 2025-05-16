@@ -19,9 +19,11 @@ public class SurveyController {
     private final SurveyFacade surveyFacade;
 
     @GetMapping("")
-    public ResponseEntity<ResponseCommon<Object>> getSurveyList(@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
-        PageDto surveyFindAll = surveyFacade.findAllSurvey(page, size);
-
+    public ResponseEntity<ResponseCommon<Object>> getSurveyList(@RequestParam(value = "page") int page,
+                                                                @RequestParam(value = "size") int size,
+                                                                @RequestParam(value = "search") String search){
+        PageDto surveyFindAll = surveyFacade.findAllSurvey(page, size, search);
+        
         ResponseCommon<Object> response = ResponseCommon
                 .builder()
                 .code(1)

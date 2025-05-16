@@ -25,8 +25,13 @@ public class SurveyFacade {
     private final SurveyMapper surveyMapper;
     private final QuestionMapper questionMapper;
 
-    public PageDto findAllSurvey(int page, int size) {
-        Page<SurveyEntity> surveyList = surveyService.findAll(page, size);
+    public PageDto findAllSurvey(int page, int size, String search) {
+        Page<SurveyEntity> surveyList;
+        if (search != null && !search.trim().isEmpty()) {
+            surveyList = surveyService.findBySurveyTitle(page, size, search);
+        } else {
+            surveyList = surveyService.findAll(page, size);
+        }
         PageDto surveyFindAll = surveyMapper.toSurveyFindAll(surveyList);
 
         return surveyFindAll;
@@ -42,8 +47,10 @@ public class SurveyFacade {
     }
 
     public Survey.Response add(Survey.Request request) {
+        // 설문지 추가
         SurveyEntity survey = surveyService.add(request);
 
+        // 질문지 추가
         List<QuestionEntity> questionEntities = questionMapper.toQuestionEntityList(survey, request.getQuestions());
         questionService.addAll(questionEntities);
 
