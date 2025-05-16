@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
 
     USER_NOT_FOUND(HttpStatus.OK, "U001", 101, "사용자를 찾을 수 없습니다."),
+    PASSWORD_FAILD(HttpStatus.BAD_REQUEST, "U002", 102, "비밀번호가 올바르지 않습니다."),
     SERVICE_NOT_FOUND(HttpStatus.OK, "S001", 101, "설문지를 찾을 수 없습니다."),
     QUESTION_NOT_FOUND(HttpStatus.OK, "Q001", 101, "질문지를 찾을 수 없습니다.");
 
