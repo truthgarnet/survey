@@ -1,8 +1,7 @@
-package org.kong.config;
+package org.kong.user.security;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.kong.util.JwtUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,9 +20,6 @@ import java.util.Collections;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-
-    private final AuthenticationConfiguration authenticationConfiguration;
-    private final JwtUtil jwtUtil;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
@@ -51,13 +47,7 @@ public class SecurityConfig {
                 .formLogin((auth) -> auth.disable());
         http
                 .httpBasic((auth) -> auth.disable());
-//        http
-//                .authorizeHttpRequests((auth) -> auth.requestMatchers("/login", "/", "/join").permitAll()
-//                        .anyRequest().authenticated());
 
-        http
-                .sessionManagement((session) -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
 
