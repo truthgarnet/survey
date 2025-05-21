@@ -11,6 +11,6 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new SessionInterceptor())
                 .addPathPatterns("/api/**")
-                .excludePathPatterns("/api/user/join", "/api/user/login");
+                .excludePathPatterns("/api/user/join", "/api/user/login", "/api/admin/login");
     }
 }
