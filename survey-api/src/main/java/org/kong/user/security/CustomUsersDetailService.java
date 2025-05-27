@@ -1,4 +1,4 @@
-package org.kong.details;
+package org.kong.user.security;
 
 import lombok.RequiredArgsConstructor;
 import org.kong.user.repository.UserRepository;

@@ -8,8 +8,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-devtools'
     implementation 'org.mapstruct:mapstruct:1.6.3'
     implementation 'com.h2database:h2'
+    implementation 'org.springframework.session:spring-session-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation project(':survey-domain')
-    implementation project(':survey-security')
     implementation project(':survey-common')
 
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'

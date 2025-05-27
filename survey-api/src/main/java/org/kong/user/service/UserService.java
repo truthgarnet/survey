@@ -9,6 +9,7 @@ import org.kong.user.entity.UserEntity;
 import org.kong.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -21,10 +22,8 @@ public class UserService {
         return user;
     }
 
-    public UserEntity findUserByIdAndUserByPwd(User.Request request) {
-        UserEntity user = userRepository.findByUserIdAndUserPwd(request.getUserId(), request.getUserPwd()).orElseThrow(() -> new CustomException((ErrorCode.USER_NOT_FOUND)));
-
+    public UserEntity save(UserEntity user) {
+        user = userRepository.save(user);
         return user;
     }
-
 }

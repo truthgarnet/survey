@@ -1,3 +1,8 @@
+server:
+  servlet:
+    session:
+      cookie:
+        name: JESSIONID
 spring:
   jwt:
     secret: alksdjklasdjlkasdjlaskjdklasjdlkasjdlkasjdlksajdlkasjdlksajldks
@@ -17,3 +22,11 @@ spring:
       properties:
         hibernate:
           format_sql: true
+    redis:
+      host: localhost
+      port: 6379
+  session:
+    store-type: redis
+    redis:
+      flush-mode: on_save # Redis에 기록
+      namespace: survey:session
