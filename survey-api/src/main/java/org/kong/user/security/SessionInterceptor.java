@@ -5,7 +5,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Component;
@@ -15,12 +14,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @Component
 @RequiredArgsConstructor
 public class SessionInterceptor implements HandlerInterceptor {
-
-    private static final String SESSION_KEY = "SESSION";
-    private static final String REDIS_SESSION_KEY = ":sessions:";
-
-    @Value("${spring.session.redis.namespace}")
-    private String nameSpace;
 
     @Override
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response,
