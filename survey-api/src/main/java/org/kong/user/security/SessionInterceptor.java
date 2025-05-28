@@ -25,12 +25,12 @@ public class SessionInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response,
                             final Object handler) throws  Exception {
-        log.info("====prehandle=====");
+        log.debug("====prehandle=====");
         HttpSession session = request.getSession(false);
-        log.info("====prehandle===== session: {}}", session);
+        log.debug("====prehandle===== session: {}}", session);
 
         SecurityContext context = (SecurityContext) session.getAttribute("SPRING_SECURITY_CONTEXT");
-        log.info("====prehandle=====context: {}", context);
+        log.debug("====prehandle=====context: {}", context);
 
         if (context == null || context.getAuthentication() == null || !context.getAuthentication().isAuthenticated()) {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());

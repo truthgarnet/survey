@@ -33,7 +33,7 @@ public class AdminFacade {
     AdminEntity adminEntity = adminService.findByAdminId(loginRequest);
 
     if (!adminEntity.getPassword().equals(loginRequest.getPassword())) {
-      log.info("패스워드가 잘못 되었습니다.");
+      log.debug("패스워드가 잘못 되었습니다.");
       throw new CustomException(ErrorCode.PASSWORD_FAILD);
     }
 

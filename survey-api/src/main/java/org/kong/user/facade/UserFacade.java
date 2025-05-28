@@ -33,7 +33,7 @@ public class UserFacade {
     }
 
     public User.Response login(User.Request request, HttpSession session) {
-        log.info("===={} ", session);
+        log.debug("===={} ", session);
         UserEntity user = userService.findUserById(request.getUserId());
         
         if (!bCryptPasswordEncoder.matches(request.getUserPwd(), user.getUserPwd())) {
