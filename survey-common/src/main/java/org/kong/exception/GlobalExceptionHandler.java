@@ -11,25 +11,17 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<ResponseError> handleCustomException(CustomException e) {
-        log.error("CustomException: {}", e.getMessage());
-        ResponseError response = new ResponseError(
-            e.getErrorCode().getStatus(),
-            e.getErrorCode().getError(),
-            e.getErrorCode().getCode(),
-            e.getErrorCode().getMsg()
-        );
-        return new ResponseEntity<>(response, e.getErrorCode().getStatus());
+        log.warn("CustomException: {}", e.getMessage());
+        return ResponseEntity
+                .status(e.getErrorCode().getStatus())
+                .body(new ResponseError(e.getErrorCode()));
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ResponseError> handleException(Exception e) {
-        log.error("Unexpected error occurred: ", e);
-        ResponseError response = new ResponseError(
-            ErrorCode.INTERNAL_SERVER_ERROR.getStatus(),
-            ErrorCode.INTERNAL_SERVER_ERROR.getError(),
-            ErrorCode.INTERNAL_SERVER_ERROR.getCode(),
-            ErrorCode.INTERNAL_SERVER_ERROR.getMsg()
-        );
-        return new ResponseEntity<>(response, ErrorCode.INTERNAL_SERVER_ERROR.getStatus());
+        log.error("Unexpected error occurred", e);
+        return ResponseEntity
+                .status(ErrorCode.INTERNAL_SERVER_ERROR.getStatus())
+                .body(new ResponseError(ErrorCode.INTERNAL_SERVER_ERROR));
     }
 }

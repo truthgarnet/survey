@@ -6,8 +6,10 @@ import lombok.*;
 public class User {
 
     @Getter
+    @Setter
     public static class Request {
-        private int userId;
+        private Integer id;
+        private String userId;
         private String userPwd;
     }
 

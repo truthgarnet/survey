@@ -18,7 +18,7 @@ public class AdminService {
   private final AdminRespository adminRespository;
 
   public AdminEntity findByAdminId(AdminLoginRequest loginRequest) {
-    log.info("관리자 조회");
+    log.debug("관리자 조회");
     AdminEntity adminEntity =
         adminRespository
             .findByAdminId(loginRequest.getAdminId())

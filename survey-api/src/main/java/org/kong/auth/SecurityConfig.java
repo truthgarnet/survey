@@ -1,7 +1,7 @@
-package org.kong.user.security;
+package org.kong.auth;
 
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.Collections;
+import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -50,12 +50,16 @@ public class SecurityConfig {
   public CorsConfiguration setCorsConfiguration() {
     CorsConfiguration configuration = new CorsConfiguration();
 
-    configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
-    configuration.setAllowedMethods(Collections.singletonList("*"));
+    configuration.setAllowedOrigins(Arrays.asList(
+        "http://localhost:5173",
+        "http://localhost:5174",
+        "http://localhost:5175"
+    ));
+    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
     configuration.setAllowCredentials(true);
-    configuration.setAllowedHeaders(Collections.singletonList("*"));
+    configuration.setAllowedHeaders(Arrays.asList("*"));
+    configuration.setExposedHeaders(Arrays.asList("*"));
     configuration.setMaxAge(3600L);
-    configuration.setExposedHeaders(Collections.singletonList("Authorization"));
 
     return configuration;
   }

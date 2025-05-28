@@ -11,10 +11,10 @@ public class ResponseError {
     private final int code;
     private final String msg;
 
-    ResponseError(HttpStatus status, String error, int code, String msg) {
-        this.status = status;
-        this.error = error;
-        this.code = code;
-        this.msg = msg;
+    ResponseError(ErrorCode errorCode) {
+        this.status = errorCode.getStatus();
+        this.error = errorCode.getError();
+        this.code = errorCode.getCode();
+        this.msg = errorCode.getMsg();
     }
 }
