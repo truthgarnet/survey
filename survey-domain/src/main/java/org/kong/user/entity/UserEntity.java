@@ -15,20 +15,22 @@ public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer userId;
+    private Integer id;
+
+    private String userId;
 
     private String userName;
 
     @Setter
-    private String userPwd;
+    private String password;
 
     private String userNickName;
 
     private String role;
 
-    public UserEntity(String userName, String userPwd, String role) {
+    public UserEntity(String userName, String password, String role) {
         this.userName = userName;
-        this.userPwd = userPwd;
+        this.password = password;
         this.role = role;
     }
 

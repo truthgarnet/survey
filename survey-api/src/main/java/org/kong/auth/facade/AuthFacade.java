@@ -38,9 +38,9 @@ public class AuthFacade {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     
     public User.Response userLogin(User.Request request, HttpServletRequest httpServletRequest) {
-        UserEntity user = userService.findUserName(request.getUserName());
+        UserEntity user = userService.findById(request.getId());
         
-        if (!bCryptPasswordEncoder.matches(request.getUserPwd(), user.getUserPwd())) {
+        if (!bCryptPasswordEncoder.matches(request.getUserPwd(), user.getPassword())) {
             log.debug("패스워드가 잘못 되었습니다.");
             throw new CustomException(ErrorCode.LOGIN_FAILED);
         }

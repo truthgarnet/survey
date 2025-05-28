@@ -14,9 +14,10 @@ import java.util.Collection;
 @RequiredArgsConstructor
 public class CustomUserDetails implements UserDetails {
 
-    private final String userName;
+    private final String userId;
+
     @JsonIgnore
-    private final transient String userPwd;
+    private final String userPwd;
 
     private String role;
 
@@ -39,12 +40,12 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userName;
+        return userId;
     }
 
     public CustomUserDetails(UserEntity user) {
-        this.userName = user.getUserName();
-        this.userPwd = user.getUserPwd();
+        this.userId = user.getUserId();
+        this.userPwd = user.getPassword();
         this.role = user.getRole();
     }
 }

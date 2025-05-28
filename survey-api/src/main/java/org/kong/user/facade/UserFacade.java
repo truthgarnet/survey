@@ -25,7 +25,7 @@ public class UserFacade {
         UserEntity user = userMapper.toEntity(request);
 
         String encode = bCryptPasswordEncoder.encode(request.getUserPwd());
-        user.setUserPwd(encode);
+        user.setPassword(encode);
         user = userService.save(user);
 
         return userMapper.toUserResponse(user);

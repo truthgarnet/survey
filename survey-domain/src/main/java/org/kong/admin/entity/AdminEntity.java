@@ -25,7 +25,12 @@ public class AdminEntity {
     private String adminId;
 
     @Column
+    private String adminName;
+
+    @Column
     private String password;
 
+    @Column
+    private String role;
     
 }
