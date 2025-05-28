@@ -1,4 +1,4 @@
-package org.kong.user.security;
+package org.kong.auth;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;

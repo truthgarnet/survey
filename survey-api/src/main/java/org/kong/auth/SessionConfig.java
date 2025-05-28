@@ -1,4 +1,4 @@
-package org.kong.user.security;
+package org.kong.auth;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

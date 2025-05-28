@@ -1,4 +1,4 @@
-package org.kong.user.security;
+package org.kong.auth;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
