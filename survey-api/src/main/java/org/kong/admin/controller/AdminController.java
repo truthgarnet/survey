@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.kong.admin.dto.AdminLoginRequest;
 import org.kong.admin.dto.AdminLoginResponse;
 import org.kong.admin.facade.AdminFacade;
+import org.kong.auth.facade.AuthFacade;
 import org.kong.response.ResponseCommon;
 import org.kong.survey.dto.PageDto;
 import org.springframework.http.HttpStatus;
@@ -22,10 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminController {
 
   private final AdminFacade adminFacade;
+  private final AuthFacade authFacade;
 
   @PostMapping("/login")
-  public ResponseEntity<ResponseCommon<Object>> login(@RequestBody AdminLoginRequest loginRequest) {
-    AdminLoginResponse result = adminFacade.login(loginRequest);
+  public ResponseEntity<ResponseCommon<Object>> login(@RequestBody AdminLoginRequest loginRequest, HttpServletRequest httpServletRequest) {
+    AdminLoginResponse result = authFacade.adminLogin(loginRequest, httpServletRequest);
 
     ResponseCommon<Object> response =
         ResponseCommon.builder().code(1).msg("로그인 성공").data(result).build();

@@ -29,16 +29,7 @@ public class AdminFacade {
   private final AdminMapper adminMapper;
   private final UserMapper userMapper;
 
-  public AdminLoginResponse login(AdminLoginRequest loginRequest) {
-    AdminEntity adminEntity = adminService.findByAdminId(loginRequest);
-
-    if (!adminEntity.getPassword().equals(loginRequest.getPassword())) {
-      log.debug("패스워드가 잘못 되었습니다.");
-      throw new CustomException(ErrorCode.PASSWORD_FAILD);
-    }
-
-    return adminMapper.toAdminLoginResponse(adminEntity);
-  }
+ 
 
   public PageDto<AdminUsersResponse> getUsers() {
     Page<UserEntity> users = userService.findAll(0, 10);

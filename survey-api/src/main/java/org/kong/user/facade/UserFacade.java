@@ -1,8 +1,7 @@
 package org.kong.user.facade;
 
 import lombok.extern.slf4j.Slf4j;
-import org.kong.exception.CustomException;
-import org.kong.exception.ErrorCode;
+
 import org.kong.user.dto.User;
 import org.kong.user.entity.UserEntity;
 import org.kong.user.mapper.UserMapper;
@@ -30,22 +29,6 @@ public class UserFacade {
         user = userService.save(user);
 
         return userMapper.toUserResponse(user);
-    }
-
-    public User.Response login(User.Request request, HttpSession session) {
-        log.debug("===={} ", session);
-        UserEntity user = userService.findUserById(request.getUserId());
-        
-        if (!bCryptPasswordEncoder.matches(request.getUserPwd(), user.getUserPwd())) {
-            throw new CustomException(ErrorCode.PASSWORD_FAILD);
-        }
-
-        User.Response userResponse = userMapper.toUserResponse(user);
-
-        session.setAttribute("user", userResponse);
-        session.setMaxInactiveInterval(3600);
-
-        return userResponse;
     }
 
 }
