@@ -11,10 +11,9 @@ public class SessionConfig {
     @Bean
     public CookieSerializer cookieSerializer() {
         DefaultCookieSerializer serializer = new DefaultCookieSerializer();
-        serializer.setCookieName("JSESSIONID");
         serializer.setCookiePath("/");
-        serializer.setDomainNamePattern("^.+?(\\w+\\.[a-z]+)$");
-        serializer.setUseBase64Encoding(false);
+        serializer.setCookieMaxAge(3600);
+        serializer.setSameSite("None"); // 제 3자의 요청 해제
         return serializer;
     }
 
